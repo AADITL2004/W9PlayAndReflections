@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Notes · little notes on big feelings</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&amp;family=Fredoka:wght@400;500;600;700&amp;family=Patrick+Hand&amp;display=swap">
+<style>
+.dc-if{display:contents}
+.dc-if[hidden]{display:none !important}
+:root{
+  --pink:#FF9BCF;--blush:#FFD8E9;--cream:#FFF9F0;--paper:#FFFDF7;--butter:#FFD92F;--tang:#FF7800;--lav:#C7A9F7;--ink:#202020;--mauve:#B59FA4;--white:#FFFFFF;--blue-ink:#24408E;
+  --hand:'Patrick Hand','Comic Neue','Segoe Print','Bradley Hand',cursive;
+  --display:'Fredoka','Baloo 2','Trebuchet MS',system-ui,sans-serif;
+  --sans:'DM Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --blob:28px 34px 26px 38px / 34px 26px 38px 28px;
+  --blob2:46% 54% 42% 58% / 52% 44% 56% 48%;
+  --sp-1:8px;--sp-2:16px;--sp-3:24px;--sp-4:40px;--sp-5:64px;--sp-6:104px;
+  --shadow:4px 5px 0 var(--ink);
+  --fast:.2s;--med:.45s;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--ink)}a:hover{color:#6B1E4A}
+:focus-visible{outline:3px dashed var(--blue-ink);outline-offset:4px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- nav (notebook tabs) ---------- */
+.site-nav{position:sticky;top:0;z-index:30;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:10px 24px;padding:12px clamp(16px,4vw,56px) 0;background:var(--cream);border-bottom:3px solid var(--ink)}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;padding-bottom:10px;min-height:44px}
+.brand-word{font-family:var(--hand);font-size:25px;line-height:1}
+.brand-here{display:block;font-family:var(--sans);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#5A4A4E;margin-top:3px}
+.brand svg{width:42px;height:42px;flex:none;animation:spin 18s linear infinite}
+.tabs{display:flex;flex-wrap:wrap;gap:6px}
+.tab{display:inline-flex;align-items:center;gap:8px;min-height:46px;padding:10px 18px 12px;border:3px solid var(--ink);border-bottom:none;border-radius:16px 22px 0 0;text-decoration:none;font-family:var(--display);font-weight:500;font-size:17px;color:var(--ink);transform:translateY(5px);transition:transform var(--fast) ease}
+.tab:hover{transform:translateY(-1px) rotate(-1.5deg);color:var(--ink)}
+.tab[aria-current="page"]{transform:translateY(0);padding-bottom:17px;font-weight:700}
+.tab-num{font-family:var(--sans);font-size:12px;font-weight:700;letter-spacing:.08em}
+.t-pink{background:var(--pink)}.t-lav{background:var(--lav)}.t-yel{background:var(--butter)}
+@media (max-width:700px){
+  .site-nav{position:relative;padding-bottom:12px;align-items:center}
+  .tab{border-bottom:3px solid var(--ink);border-radius:14px;transform:none;padding:8px 13px;font-size:15px;min-height:44px}
+  .tab[aria-current="page"]{padding-bottom:8px;box-shadow:3px 3px 0 var(--ink)}
+  .tab .long{display:none}
+}
+
+/* ---------- progress + back to top ---------- */
+.progress{position:fixed;left:0;top:0;width:100%;height:7px;background:var(--tang);transform-origin:0 50%;transform:scaleX(0);z-index:40;display:none;pointer-events:none}
+.to-top{position:fixed;right:clamp(12px,3vw,32px);bottom:clamp(12px,3vw,32px);z-index:35;display:inline-flex;align-items:center;min-height:48px;padding:10px 18px;background:var(--butter);border:3px solid var(--ink);border-radius:999px;box-shadow:var(--shadow);font-family:var(--hand);font-size:21px;text-decoration:none;color:var(--ink);transform:rotate(-3deg);transition:transform var(--fast)}
+.to-top:hover{transform:rotate(3deg) scale(1.06);color:var(--ink)}
+@supports (animation-timeline: scroll()){
+  .progress{display:block;animation:grow linear both;animation-timeline:scroll(root)}
+  .to-top{animation:appear linear both;animation-timeline:scroll(root);animation-range:0 900px}
+}
+
+/* ---------- shared bits ---------- */
+.wrap{width:100%;max-width:1180px;margin:0 auto;padding:0 clamp(16px,4vw,48px)}
+.hand{font-family:var(--hand)}
+.eyebrow{font-family:var(--sans);font-weight:700;font-size:13px;letter-spacing:.16em;text-transform:uppercase;margin:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:12px 28px;border:3px solid var(--ink);border-radius:999px;background:var(--ink);color:var(--cream);font-family:var(--display);font-weight:600;font-size:19px;text-decoration:none;box-shadow:4px 5px 0 var(--tang);transition:transform var(--fast),box-shadow var(--fast);cursor:pointer}
+.btn:hover{transform:translate(-2px,-2px) rotate(-1.5deg);box-shadow:7px 8px 0 var(--tang);color:var(--cream)}
+.btn:active{transform:translate(2px,3px);box-shadow:1px 1px 0 var(--tang)}
+.btn-yel{background:var(--butter);color:var(--ink);box-shadow:4px 5px 0 var(--ink)}
+.btn-yel:hover{color:var(--ink);box-shadow:7px 8px 0 var(--ink)}
+.sticker{display:inline-block;background:var(--white);border:2.5px solid var(--ink);border-radius:999px;padding:8px 18px;box-shadow:3px 4px 0 var(--ink);font-family:var(--hand);font-size:23px;line-height:1.1;transform:rotate(var(--tilt,-4deg));transition:transform var(--fast)}
+.sticker:hover{transform:rotate(calc(var(--tilt,-4deg) * -1)) scale(1.07)}
+.doodle{fill:none;stroke:var(--ink);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.float{animation:float 5s ease-in-out infinite}
+.float-2{animation:float 6.5s ease-in-out -2s infinite}
+.bob{animation:bob 3.2s ease-in-out infinite}
+.spin{animation:spin 22s linear infinite}
+.hl-y{background:linear-gradient(transparent 50%,rgba(255,217,47,.9) 50%,rgba(255,217,47,.9) 88%,transparent 88%);padding:0 5px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.hl-p{background:linear-gradient(transparent 46%,rgba(255,155,207,.75) 46%,rgba(255,155,207,.75) 90%,transparent 90%);padding:0 5px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.hl-l{background:linear-gradient(transparent 46%,rgba(199,169,247,.8) 46%,rgba(199,169,247,.8) 90%,transparent 90%);padding:0 5px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.u-wavy{text-decoration:underline wavy var(--tang);text-decoration-thickness:2px;text-underline-offset:7px}
+.u-pink{text-decoration:underline var(--pink);text-decoration-thickness:4px;text-underline-offset:6px}
+
+/* ---------- hero ---------- */
+.hero{position:relative;overflow:hidden;background:var(--pink);border-bottom:3px solid var(--ink)}
+.hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr));gap:var(--sp-4);align-items:center;padding-top:clamp(48px,8vw,104px);padding-bottom:clamp(56px,9vw,120px)}
+.hero h1{font-family:var(--hand);font-weight:400;font-size:clamp(58px,8.4vw,132px);line-height:.92;letter-spacing:-.01em;margin:18px 0 22px}
+.hero h1 .heart{display:inline-block;color:var(--white);-webkit-text-stroke:2px var(--ink);animation:beat 2.4s ease-in-out infinite}
+.hero-sub{font-family:var(--display);font-weight:500;font-size:clamp(19px,1.5vw + 10px,25px);line-height:1.4;max-width:30ch;margin:0 0 18px}
+.hero-ann{display:flex;align-items:center;gap:10px;font-family:var(--hand);font-size:24px;margin:0 0 30px}
+.shape{position:absolute;z-index:1;pointer-events:none}
+.sheet{position:relative;margin:0 auto;width:min(400px,100%);aspect-ratio:4/5;background:var(--paper);border:3px solid var(--ink);border-radius:6px 12px 8px 14px;box-shadow:10px 12px 0 var(--ink);transform:rotate(4deg);background-image:repeating-linear-gradient(180deg,transparent 0,transparent 35px,rgba(36,64,142,.16) 35px,rgba(36,64,142,.16) 36px);padding:46px 30px 30px 44px}
+.sheet-line{font-family:var(--hand);color:var(--blue-ink);font-size:24px;line-height:36px;margin:0}
+.tape{position:absolute;top:-18px;left:50%;width:120px;height:34px;margin-left:-60px;background:rgba(255,217,47,.75);border:2px solid rgba(32,32,32,.35);transform:rotate(-6deg)}
+
+/* ---------- notebook ---------- */
+.notebook-zone{padding:clamp(56px,8vw,112px) 0 clamp(40px,6vw,80px);position:relative}
+.paper{--margin:clamp(30px,6vw,88px);position:relative;background-color:var(--paper);border:2.5px solid var(--ink);border-radius:6px 12px 8px 14px;box-shadow:9px 11px 0 var(--blush),9px 11px 0 2.5px var(--ink);padding:clamp(34px,5vw,76px) clamp(18px,5vw,76px) clamp(34px,5vw,76px) calc(var(--margin) + clamp(14px,3vw,40px))}
+.paper.ruled{background-image:linear-gradient(90deg,transparent 0,transparent calc(var(--margin) - 2px),rgba(255,120,175,.6) calc(var(--margin) - 2px),rgba(255,120,175,.6) var(--margin),transparent var(--margin)),repeating-linear-gradient(180deg,transparent 0,transparent 39px,rgba(36,64,142,.12) 39px,rgba(36,64,142,.12) 40px)}
+.paper::before{content:"";position:absolute;left:calc(var(--margin) / 2 - 8px);top:28px;bottom:28px;width:16px;background:radial-gradient(circle at 8px 8px,var(--cream) 0 5px,var(--ink) 5.5px 7px,transparent 7.5px) 0 0/16px 72px repeat-y;pointer-events:none}
+.page + .page{margin-top:clamp(56px,7vw,96px)}
+.torn{display:inline-flex;align-items:center;gap:10px;font-family:var(--sans);font-weight:700;font-size:13px;letter-spacing:.13em;text-transform:uppercase;padding:9px 22px;color:var(--ink);clip-path:polygon(0 10%,5% 0,12% 8%,20% 0,29% 9%,38% 1%,47% 8%,56% 0,65% 9%,74% 1%,83% 8%,92% 0,100% 9%,100% 90%,93% 100%,85% 92%,76% 100%,67% 91%,58% 100%,49% 92%,40% 100%,31% 91%,22% 100%,13% 92%,5% 100%,0 90%);transform:rotate(-2deg)}
+.torn.pink{background:var(--pink)}.torn.lav{background:var(--lav)}.torn.yel{background:var(--butter)}.torn.blush{background:var(--blush)}
+.nhead{font-family:var(--hand);font-weight:400;font-size:clamp(40px,3.2vw + 20px,66px);line-height:1.02;margin:14px 0 22px;color:var(--ink)}
+.note{font-family:var(--hand);color:var(--blue-ink);font-size:clamp(21px,.6vw + 17px,26px);line-height:40px;margin:0}
+.note-sm{font-family:var(--hand);color:var(--blue-ink);font-size:21px;line-height:30px;margin:0}
+
+/* index */
+.index{display:flex;flex-wrap:wrap;gap:12px 14px;margin:6px 0 0;padding:0;list-style:none}
+.index a{display:inline-flex;align-items:center;gap:8px;min-height:48px;padding:8px 16px;background:var(--white);border:2.5px solid var(--ink);border-radius:var(--blob);font-family:var(--hand);font-size:22px;text-decoration:none;color:var(--ink);box-shadow:3px 3px 0 var(--ink);transition:transform var(--fast),background var(--fast)}
+.index a:hover{transform:rotate(-2deg) translateY(-3px);background:var(--blush);color:var(--ink)}
+.index b{font-family:var(--sans);font-size:13px;letter-spacing:.06em}
+
+/* section 01 */
+.definition{font-family:var(--hand);color:var(--blue-ink);font-size:clamp(30px,2.4vw + 16px,50px);line-height:1.3;margin:0;max-width:24ch}
+.star-row{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin-top:18px}
+.star-btn{display:inline-grid;place-items:center;width:52px;height:52px;border:none;background:none;cursor:pointer;padding:0;border-radius:50%}
+.star-btn svg{width:38px;height:38px;fill:var(--butter);stroke:var(--ink);stroke-width:1.6;stroke-linejoin:round;transition:transform .35s cubic-bezier(.3,1.6,.5,1)}
+.star-btn:hover svg,.star-btn[aria-expanded="true"] svg{transform:rotate(72deg) scale(1.18)}
+.star-hint{font-family:var(--hand);font-size:20px;color:#5A4A4E}
+.margin-note{display:inline-block;font-family:var(--hand);font-size:22px;line-height:1.3;color:var(--ink);background:var(--blush);border:2px dashed var(--ink);border-radius:var(--blob);padding:8px 16px;animation:pop .4s cubic-bezier(.3,1.6,.5,1) both}
+
+/* section 02 levels */
+.levels{position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:28px;margin-top:20px}
+.level{position:relative;padding:20px 22px 24px;border:2.5px solid var(--ink);border-radius:var(--blob);background:var(--white);transition:transform var(--fast),box-shadow var(--fast)}
+.level:hover,.level:focus-within{transform:rotate(-1.4deg) translateY(-5px);box-shadow:5px 6px 0 var(--ink)}
+.level:hover .lvl-art,.level:focus-within .lvl-art{animation:wiggle .6s ease}
+.level h4{font-family:var(--hand);font-weight:400;font-size:38px;line-height:1;margin:10px 0 8px}
+.lvl-art{width:84px;height:84px;display:block}
+.lvl-tag{position:absolute;top:-16px;right:18px;font-family:var(--sans);font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:5px 10px;border:2px solid var(--ink);border-radius:999px;background:var(--butter)}
+.bracket{display:block;width:100%;height:46px;margin-top:4px}
+
+/* section 03 */
+.terms{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:18px 34px;margin:6px 0 30px}
+.term{display:flex;flex-direction:column;gap:4px}
+.term dt{font-family:var(--hand);font-size:32px;line-height:1.1;color:var(--ink)}
+.term dd{margin:0}
+.values{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin:20px 0 6px}
+.value-chip{font-family:var(--display);font-weight:600;font-size:20px;padding:10px 20px;border:2.5px solid var(--ink);border-radius:var(--blob2);box-shadow:3px 3px 0 var(--ink)}
+.pyr-wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:28px 48px;align-items:center;margin-top:44px}
+.pyr{display:flex;flex-direction:column;align-items:center;gap:7px;width:100%;max-width:560px;margin:0 auto}
+.pyr-lvl{display:flex;align-items:center;justify-content:center;width:var(--w);min-height:66px;margin:0;padding:10px 8px;border:2.5px solid var(--ink);font-family:var(--hand);font-size:clamp(20px,1.2vw + 14px,29px);color:var(--ink);cursor:pointer;transition:transform var(--fast),box-shadow var(--fast)}
+.pyr-lvl:hover,.pyr-lvl.on{transform:scale(1.05) rotate(-1deg);box-shadow:5px 5px 0 var(--ink)}
+.pyr-lvl.on{outline:3px solid var(--ink);outline-offset:3px}
+.pyr-cap{font-family:var(--hand);font-size:26px;line-height:1.35;color:var(--blue-ink);margin:0}
+
+/* section 04 */
+.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr));gap:30px 28px;margin-top:30px;padding:0;list-style:none}
+.why{position:relative;padding:20px 20px 22px;background:var(--white);border:2.5px solid var(--ink);border-radius:var(--blob);transform:rotate(var(--tilt,0deg));transition:transform var(--fast),box-shadow var(--fast)}
+.why:hover{transform:rotate(0deg) translateY(-6px);box-shadow:5px 6px 0 var(--ink)}
+.why:hover .why-ico{animation:wiggle .6s ease}
+.why-top{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.why-ico{width:46px;height:46px;flex:none}
+.why h4{font-family:var(--hand);font-weight:400;font-size:29px;line-height:1.05;margin:0}
+.why-n{position:absolute;top:-14px;left:-10px;display:grid;place-items:center;width:36px;height:36px;border:2.5px solid var(--ink);border-radius:var(--blob2);background:var(--butter);font-family:var(--hand);font-size:20px}
+
+/* factors */
+.factors{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr));gap:22px;margin-top:26px;padding:0;list-style:none}
+.factor{display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+.f-btn{display:flex;align-items:center;gap:12px;width:100%;min-height:64px;padding:10px 18px 10px 12px;border:2.5px solid var(--ink);border-radius:999px;font-family:var(--hand);font-size:26px;color:var(--ink);cursor:pointer;box-shadow:3px 4px 0 var(--ink);transform:rotate(var(--tilt,-2deg));transition:transform .3s cubic-bezier(.3,1.6,.5,1),box-shadow var(--fast)}
+.f-btn:hover{transform:rotate(calc(var(--tilt,-2deg) * -1)) scale(1.05)}
+.f-btn[aria-expanded="true"]{transform:rotate(0) scale(1.02);box-shadow:5px 6px 0 var(--ink)}
+.f-btn svg{width:38px;height:38px;flex:none;padding:5px;background:var(--white);border:2px solid var(--ink);border-radius:50%}
+.f-plus{margin-left:auto;font-family:var(--sans);font-weight:700;font-size:18px}
+.f-gloss{font-family:var(--hand);font-size:21px;line-height:1.3;color:var(--blue-ink);margin:0 0 0 12px;padding-left:12px;border-left:2px dashed var(--mauve);animation:pop .35s cubic-bezier(.3,1.6,.5,1) both}
+
+/* how-to list */
+.howto{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(380px,100%),1fr));gap:20px 48px;margin:28px 0 0;padding:0;list-style:none}
+.how{display:flex;gap:16px;align-items:flex-start;padding:8px 0}
+.num{flex:none;display:grid;place-items:center;width:48px;height:48px;border:2.5px solid var(--ink);border-radius:52% 48% 55% 45% / 48% 55% 45% 52%;font-family:var(--hand);font-size:25px;background:var(--butter);transition:transform var(--fast)}
+.how:nth-child(even) .num{background:var(--pink)}
+.how:hover .num{transform:rotate(-12deg) scale(1.1)}
+.how h4{font-family:var(--hand);font-weight:400;font-size:29px;line-height:1.1;margin:4px 0 2px;color:var(--ink)}
+
+/* end */
+.end{position:relative;text-align:center;padding:clamp(48px,6vw,80px) clamp(18px,4vw,48px);margin-top:clamp(56px,7vw,96px);background:var(--lav);border:3px solid var(--ink);border-radius:var(--blob);box-shadow:8px 9px 0 var(--ink);overflow:hidden}
+.end-title{font-family:var(--hand);font-weight:400;font-size:clamp(36px,3vw + 20px,62px);line-height:1.05;margin:0 0 14px}
+.end-row{display:flex;flex-wrap:wrap;justify-content:center;gap:16px 20px;margin-top:26px}
+.reward{font-family:var(--hand);font-size:24px;margin:20px 0 0;animation:pop .4s cubic-bezier(.3,1.6,.5,1) both}
+.burst{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.burst span{position:absolute;left:50%;top:62%;width:13px;height:17px;border:1.5px solid var(--ink);border-radius:3px;animation:confetti 1.5s cubic-bezier(.15,.75,.35,1) forwards}
+.burst span.h{width:auto;height:auto;border:none;font-family:var(--hand);font-size:34px;line-height:1;color:var(--ink);background:none}
+.burst span:nth-child(1){--dx:-320px;--dy:-220px;--r:260deg;background:var(--pink)}
+.burst span:nth-child(2){--dx:-230px;--dy:-300px;--r:-200deg;background:var(--butter)}
+.burst span:nth-child(3){--dx:-140px;--dy:-340px;--r:320deg;background:var(--tang)}
+.burst span:nth-child(4){--dx:-60px;--dy:-380px;--r:-280deg;background:var(--white)}
+.burst span:nth-child(5){--dx:30px;--dy:-360px;--r:200deg;background:var(--pink)}
+.burst span:nth-child(6){--dx:120px;--dy:-330px;--r:-300deg;background:var(--butter)}
+.burst span:nth-child(7){--dx:210px;--dy:-290px;--r:240deg;background:var(--tang)}
+.burst span:nth-child(8){--dx:300px;--dy:-210px;--r:-260deg;background:var(--white)}
+.burst span:nth-child(9){--dx:-380px;--dy:-120px;--r:180deg;background:var(--butter)}
+.burst span:nth-child(10){--dx:380px;--dy:-110px;--r:-180deg;background:var(--pink)}
+.burst span:nth-child(11){--dx:-180px;--dy:-180px;--r:30deg}
+.burst span:nth-child(12){--dx:170px;--dy:-200px;--r:-30deg}
+.burst span:nth-child(13){--dx:0px;--dy:-250px;--r:15deg}
+.burst span:nth-child(14){--dx:-300px;--dy:-60px;--r:-20deg}
+.burst span:nth-child(15){--dx:300px;--dy:-70px;--r:25deg}
+
+/* footer */
+.foot{border-top:3px solid var(--ink);background:var(--blush);padding:28px 0 34px}
+.foot-in{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px 24px}
+.foot p{margin:0}
+
+/* scroll reveal */
+@supports (animation-timeline: view()){
+  @media (prefers-reduced-motion: no-preference){
+    .reveal{animation:rise linear both;animation-timeline:view();animation-range:entry 0% entry 38%}
+    .factor{animation:rise linear both;animation-timeline:view();animation-range:entry 0% entry 55%}
+    .factor:nth-child(2n){animation-range:entry 8% entry 63%}
+    .factor:nth-child(3n){animation-range:entry 16% entry 71%}
+    .u-draw{background-size:0% 5px;animation:draw linear both;animation-timeline:view();animation-range:entry 30% cover 40%}
+  }
+}
+.u-draw{background-image:linear-gradient(var(--tang),var(--tang));background-repeat:no-repeat;background-position:0 100%;background-size:100% 5px;padding-bottom:3px}
+
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes float{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-14px) rotate(6deg)}}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(var(--tilt,-6deg))}50%{transform:translateY(-8px) rotate(var(--tilt,-6deg))}}
+@keyframes wiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-10deg)}50%{transform:rotate(8deg)}75%{transform:rotate(-4deg)}}
+@keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.18)}30%{transform:scale(1)}45%{transform:scale(1.1)}}
+@keyframes pop{from{opacity:0;transform:scale(.7) rotate(-4deg)}to{opacity:1;transform:none}}
+@keyframes rise{from{opacity:0;transform:translateY(34px)}to{opacity:1;transform:none}}
+@keyframes grow{to{transform:scaleX(1)}}
+@keyframes appear{0%,60%{opacity:0;visibility:hidden}100%{opacity:1;visibility:visible}}
+@keyframes draw{to{background-size:100% 5px}}
+@keyframes confetti{0%{transform:translate(-50%,-50%) scale(.3);opacity:1}80%{opacity:1}100%{transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) rotate(var(--r));opacity:0}}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none !important;transition:none !important}
+  .burst{display:none}
+}
+</style>
+</head>
+<body>
+<div id="top" style="min-height: 100vh; display: flex; flex-direction: column">
+<div class="progress" aria-hidden="true"></div>
+
+<header class="site-nav">
+  <a class="brand" href="index.html" aria-label="little notes on big feelings, notes page">
+    <svg viewBox="0 0 48 48" aria-hidden="true"><g stroke="#202020" stroke-width="2.2"><circle cx="24" cy="11" r="8" fill="#FF9BCF"></circle><circle cx="36.4" cy="20" r="8" fill="#FFD92F"></circle><circle cx="31.6" cy="34.6" r="8" fill="#C7A9F7"></circle><circle cx="16.4" cy="34.6" r="8" fill="#FF9BCF"></circle><circle cx="11.6" cy="20" r="8" fill="#FFD92F"></circle><circle cx="24" cy="24" r="6.5" fill="#FF7800"></circle></g></svg>
+    <span><span class="brand-word">big feelings</span><span class="brand-here">you are on page 1 of 3</span></span>
+  </a>
+  <nav aria-label="Site pages">
+    <div class="tabs">
+      <a class="tab t-pink" href="index.html" aria-current="page"><span class="tab-num">01</span> My Notes</a>
+      <a class="tab t-lav" href="Spotify.html"><span class="tab-num">02</span> Spotify<span class="long">&#160;&amp; Feelings</span></a>
+      <a class="tab t-yel" href="About.html"><span class="tab-num">03</span> About<span class="long">&#160;Me</span></a>
+    </div>
+  </nav>
+</header>
+
+<main style="flex: 1">
+
+<!-- ================= HERO ================= -->
+<section class="hero" aria-labelledby="hero-title">
+  <svg class="shape" style="top: -120px; right: -90px; width: clamp(240px, 34vw, 520px)" viewBox="0 0 200 200" aria-hidden="true"><path class="spin" style="transform-origin: 100px 100px" d="M100 6l14 34 34-16-6 37 37 6-27 25 25 28-37 4 4 37-34-14-10 36-22-30-30 22-2-38-37-4 22-30-30-22 36-10-14-34 37 4 4-37 30 22z" fill="#FF7800" stroke="#202020" stroke-width="3"></path></svg>
+  <svg class="shape" style="bottom: -190px; left: -150px; width: clamp(200px, 24vw, 340px)" viewBox="0 0 200 200" aria-hidden="true"><path d="M48 30c40-30 112-22 136 26s4 118-48 132S10 172 8 118 8 60 48 30z" fill="#FFD92F" stroke="#202020" stroke-width="3"></path></svg>
+  <svg class="shape float-2" style="top: 18%; left: 46%; width: 70px" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.6 6.1 6.6.6-5 4.4 1.5 6.5L12 16.7 6.3 20.1l1.5-6.5-5-4.4 6.6-.6z" fill="#FFFFFF" stroke="#202020" stroke-width="1.4" stroke-linejoin="round"></path></svg>
+  <svg class="shape float" style="bottom: 14%; right: 44%; width: 120px" viewBox="0 0 120 40" aria-hidden="true"><path d="M4 22c10-18 18 18 28 0s18 18 28 0 18 18 28 0 18 18 28 0" fill="none" stroke="#C7A9F7" stroke-width="7" stroke-linecap="round"></path><path d="M4 22c10-18 18 18 28 0s18 18 28 0 18 18 28 0 18 18 28 0" fill="none" stroke="#202020" stroke-width="2" stroke-linecap="round"></path></svg>
+
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">Week 09 · Play &amp; Reflect</p>
+      <h1 id="hero-title">little notes on big feelings <span class="heart" aria-hidden="true">♡</span></h1>
+      <p class="hero-sub">a tiny notebook about emotional design, human experiences, and the feelings in between.</p>
+      <p class="hero-ann">
+        <svg width="46" height="34" viewBox="0 0 46 34" aria-hidden="true"><path class="doodle" d="M3 6c10 0 26 4 34 22M37 28l-8-2M37 28l2-8"></path></svg>
+        scribbled while learning something new ✿
+      </p>
+      <a class="btn" href="#notebook">open my notebook <span aria-hidden="true">↓</span></a>
+    </div>
+    <div style="position: relative; padding: 24px 0">
+      <div class="sheet">
+        <span class="tape" aria-hidden="true"></span>
+        <p class="sheet-line">week 9 ✎</p>
+        <p class="sheet-line">emotional design =</p>
+        <p class="sheet-line">&#160;&#160;designs that make</p>
+        <p class="sheet-line">&#160;&#160;us <span class="hl-y">feel</span> something</p>
+        <p class="sheet-line">&#160;</p>
+        <p class="sheet-line">visceral → behavioural</p>
+        <p class="sheet-line">&#160;&#160;→ reflective ✿</p>
+        <svg style="position: absolute; right: 26px; bottom: 26px; width: 64px" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" fill="#FF9BCF" stroke="#202020" stroke-width="1.4" stroke-linejoin="round"></path></svg>
+      </div>
+      <span class="sticker bob" style="--tilt: -9deg; position: absolute; top: 6px; left: -4px; background: #FFD92F; font-size: 27px">feelings matter!</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= NOTEBOOK ================= -->
+<div class="notebook-zone" id="notebook">
+  <div class="wrap">
+
+    <!-- index page -->
+    <article class="paper page reveal" aria-labelledby="idx-title">
+      <span class="torn yel">notebook index</span>
+      <h2 id="idx-title" class="nhead">what's inside ✎</h2>
+      <nav aria-label="Notebook sections">
+        <ol class="index">
+          <li><a href="#s01"><b>01</b> · what is emotional design?</a></li>
+          <li><a href="#s02"><b>02</b> · the three cognitive levels</a></li>
+          <li><a href="#s03"><b>03</b> · the hierarchy of user needs</a></li>
+          <li><a href="#s04"><b>04</b> · why emotions matter</a></li>
+          <li><a href="#s05"><b>05</b> · how to design emotionally</a></li>
+        </ol>
+      </nav>
+    </article>
+
+    <!-- 01 -->
+    <article data-tpl id="s01" data-tpl-class="{{paperClass}}" aria-labelledby="h01" style="scroll-margin-top: 90px">
+      <span class="torn pink">01 · what is emotional design?</span>
+      <h2 id="h01" class="nhead">Emotional Design</h2>
+      <p class="definition">How to create designs that <span class="hl-y">evoke emotion</span> that result in <span class="hl-p">positive user experiences</span>.</p>
+      <div class="star-row">
+        <button data-tpl class="star-btn" type="button" data-tpl-aria-expanded="{{star1Exp}}" aria-controls="ann1" data-on="star1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.6 6.1 6.6.6-5 4.4 1.5 6.5L12 16.7 6.3 20.1l1.5-6.5-5-4.4 6.6-.6z"></path></svg><span class="sr">show margin note</span></button>
+        <div class="dc-if" data-if="star1Closed"><span class="star-hint">← tap the star for a margin note</span></div>
+        <div id="ann1" aria-live="polite">
+          <div class="dc-if" data-if="star1Open" hidden><span class="margin-note">the whole week, in one sentence ♡</span></div>
+        </div>
+      </div>
+    </article>
+
+    <!-- 02 -->
+    <article data-tpl id="s02" data-tpl-class="{{paperClass}}" aria-labelledby="h02" style="scroll-margin-top: 90px">
+      <span class="torn lav">02 · the three cognitive levels</span>
+      <h2 id="h02" class="nhead">the 3 cognitive levels ✿</h2>
+      <svg class="bracket" viewBox="0 0 1000 46" preserveAspectRatio="none" aria-hidden="true"><path class="doodle" d="M8 40c2-16 8-20 24-20h440c14 0 22-6 28-18 6 12 14 18 28 18h440c16 0 22 4 24 20" vector-effect="non-scaling-stroke" style="stroke-width: 2.5"></path></svg>
+      <div class="levels">
+        <section class="level" aria-labelledby="lv1">
+          <span class="lvl-tag">level 1</span>
+          <svg class="lvl-art" viewBox="0 0 84 84" aria-hidden="true"><path d="M42 4l7 15 15-8-2 17 17 3-12 12 12 12-17 3 2 17-15-8-7 15-7-15-15 8 2-17-17-3 12-12L5 31l17-3-2-17 15 8z" fill="#FFD92F" stroke="#202020" stroke-width="2.4" stroke-linejoin="round"></path><circle cx="35" cy="38" r="2.6" fill="#202020"></circle><circle cx="49" cy="38" r="2.6" fill="#202020"></circle><path d="M33 47c5 6 13 6 18 0" fill="none" stroke="#202020" stroke-width="2.4" stroke-linecap="round"></path></svg>
+          <h4 id="lv1"><span class="hl-y">Visceral</span></h4>
+          <p class="note-sm">users' gut reactions or first impressions.</p>
+        </section>
+        <section class="level" aria-labelledby="lv2">
+          <span class="lvl-tag" style="background: #FF9BCF">level 2</span>
+          <svg class="lvl-art" viewBox="0 0 84 84" aria-hidden="true"><rect x="10" y="12" width="50" height="30" rx="15" fill="#FF9BCF" stroke="#202020" stroke-width="2.4"></rect><path d="M26 27h18" stroke="#202020" stroke-width="2.4" stroke-linecap="round"></path><path d="M46 78c-8 0-14-6-16-14l-4-14c-1-3 3-5 5-2l5 8V36c0-3 5-3 5 0v12-3c0-3 5-3 5 0v4-2c0-3 5-3 5 0v4c0-3 5-3 5 0v13c0 8-6 14-14 14z" fill="#FFFFFF" stroke="#202020" stroke-width="2.4" stroke-linejoin="round"></path><path d="M62 10l4-5M68 16l6-2M64 22l6 3" stroke="#FF7800" stroke-width="2.4" stroke-linecap="round"></path></svg>
+          <h4 id="lv2"><span class="hl-p">Behavioural</span></h4>
+          <p class="note-sm">subconsciously evaluate ease.</p>
+        </section>
+        <section class="level" aria-labelledby="lv3">
+          <span class="lvl-tag" style="background: #C7A9F7">level 3</span>
+          <svg class="lvl-art" viewBox="0 0 84 84" aria-hidden="true"><path d="M20 50c-10 0-14-10-8-16-4-10 6-18 14-14 4-10 20-12 26-2 10-4 20 4 16 14 8 4 6 18-6 18-2 6-12 8-18 4-6 4-18 4-24-4z" fill="#C7A9F7" stroke="#202020" stroke-width="2.4" stroke-linejoin="round"></path><path d="M42 44s-9-5.5-9-12a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6.5-9 12-9 12z" fill="#FFFFFF" stroke="#202020" stroke-width="2" stroke-linejoin="round"></path><circle cx="18" cy="64" r="5" fill="#FFFFFF" stroke="#202020" stroke-width="2.4"></circle><circle cx="10" cy="76" r="3" fill="#FFFFFF" stroke="#202020" stroke-width="2.4"></circle></svg>
+          <h4 id="lv3"><span class="hl-l">Reflective</span></h4>
+          <p class="note-sm">after-use judgement.</p>
+        </section>
+      </div>
+      <p class="note" style="margin-top: 26px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap"><svg width="54" height="26" viewBox="0 0 54 26" aria-hidden="true"><path class="doodle" d="M2 13h44M38 5l8 8-8 8"></path></svg> first look → using it → thinking back on it</p>
+    </article>
+
+    <!-- 03 -->
+    <article data-tpl id="s03" data-tpl-class="{{paperClass}}" aria-labelledby="h03" style="scroll-margin-top: 90px">
+      <span class="torn yel">03 · the hierarchy of user needs</span>
+      <h2 id="h03" class="nhead">does it work AND feel good?</h2>
+      <dl class="terms">
+        <div class="term"><dt><span class="u-draw">Effectiveness:</span></dt><dd class="note">does it do the job?</dd></div>
+        <div class="term"><dt><span class="u-draw">Efficiency:</span></dt><dd class="note">does it do the job well?</dd></div>
+        <div class="term"><dt><span class="u-draw">Satisfaction:</span></dt><dd class="note">do the users enjoy what they're doing?</dd></div>
+      </dl>
+      <p class="note" style="font-size: clamp(24px, 1.2vw + 16px, 32px); line-height: 1.4; max-width: 30ch">"Getting the right emotions is critical for <span class="hl-y">business value</span> as well as for <span class="hl-p">human value</span>."</p>
+      <div class="values" aria-hidden="true">
+        <span class="value-chip" style="background: #FFD92F">business value</span>
+        <span class="hand" style="font-size: 38px">+</span>
+        <span class="value-chip" style="background: #FF9BCF">human value</span>
+        <svg width="40" height="40" viewBox="0 0 24 24" class="float"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" fill="#FF9BCF" stroke="#202020" stroke-width="1.5" stroke-linejoin="round"></path></svg>
+      </div>
+
+      <div class="pyr-wrap">
+        <figure style="margin: 0">
+          <div class="pyr" role="group" aria-label="hierarchy of user needs, top to bottom">
+            <button data-tpl type="button" data-tpl-class="{{pyr4Class}}" data-tpl-aria-pressed="{{pyr4Pressed}}" data-on="pick4" style="--w: 38%; background: #FF9BCF; border-radius: 50% 50% 10px 14px / 80% 80% 12px 10px; min-height: 84px; padding-top: 22px">4 · Pleasurable</button>
+            <button data-tpl type="button" data-tpl-class="{{pyr3Class}}" data-tpl-aria-pressed="{{pyr3Pressed}}" data-on="pick3" style="--w: 58%; background: #C7A9F7; border-radius: 12px 16px 10px 18px / 14px 10px 16px 12px">3 · Usable</button>
+            <button data-tpl type="button" data-tpl-class="{{pyr2Class}}" data-tpl-aria-pressed="{{pyr2Pressed}}" data-on="pick2" style="--w: 79%; background: #FFD92F; border-radius: 14px 10px 18px 12px / 10px 16px 12px 14px">2 · Reliable</button>
+            <button data-tpl type="button" data-tpl-class="{{pyr1Class}}" data-tpl-aria-pressed="{{pyr1Pressed}}" data-on="pick1" style="--w: 100%; background: #FFB066; border-radius: 10px 18px 12px 16px / 16px 12px 14px 10px">1 · Functional</button>
+          </div>
+          <figcaption class="hand" style="text-align: center; font-size: 26px; margin-top: 16px"><span class="u-pink">hierarchy of user needs</span></figcaption>
+        </figure>
+        <div>
+          <p class="pyr-cap" aria-live="polite"><span data-t="pyrCaption"></span></p>
+          <p class="hand" style="font-size: 19px; color: #5A4A4E; margin: 14px 0 0">↑ tap a level · read bottom to top: functional, reliable, usable, pleasurable</p>
+        </div>
+      </div>
+    </article>
+
+    <!-- 04 -->
+    <article data-tpl id="s04" data-tpl-class="{{paperClass}}" aria-labelledby="h04" style="scroll-margin-top: 90px">
+      <span class="torn pink">04 · why emotions matter</span>
+      <h2 id="h04" class="nhead">why feelings matter ♡</h2>
+      <p class="note" style="font-size: clamp(23px, 1vw + 16px, 30px); line-height: 1.45; max-width: 36ch">"Along with <span class="hl-y">effectiveness</span> and <span class="hl-y">efficiency</span>, a designer must be aware of their users' responses, which are <span class="hl-p">naturally emotional</span>."</p>
+      <ol class="why-grid">
+        <li class="why" style="--tilt: -1.2deg"><span class="why-n">1</span><div class="why-top"><svg class="why-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="12" r="5.5" fill="#FF9BCF" stroke="#202020" stroke-width="1.5"></circle><circle cx="15" cy="12" r="5.5" fill="none" stroke="#202020" stroke-width="1.5"></circle></svg><h4>Connection</h4></div><p class="note-sm">emotional design creates a deeper bond, and hence <span class="hl-y">loyalty</span>.</p></li>
+        <li class="why" style="--tilt: 1deg"><span class="why-n">2</span><div class="why-top"><svg class="why-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="#FFD92F" stroke="#202020" stroke-width="1.5"></circle><circle cx="9" cy="10" r="1" fill="#202020"></circle><circle cx="15" cy="10" r="1" fill="#202020"></circle><path d="M8 14c2 2.6 6 2.6 8 0" fill="none" stroke="#202020" stroke-width="1.5" stroke-linecap="round"></path></svg><h4>Usability &amp; Satisfaction</h4></div><p class="note-sm">usability and satisfaction are perceived as <span class="hl-y">easier to use</span>, contributing to positive emotions.</p></li>
+        <li class="why" style="--tilt: -.6deg"><span class="why-n">3</span><div class="why-top"><svg class="why-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.6 6.1 6.6.6-5 4.4 1.5 6.5L12 16.7 6.3 20.1l1.5-6.5-5-4.4 6.6-.6z" fill="#C7A9F7" stroke="#202020" stroke-width="1.5" stroke-linejoin="round"></path></svg><h4>Memorability</h4></div><p class="note-sm">a positive emotional response means users will <span class="hl-p">recall</span> the experience.</p></li>
+        <li class="why" style="--tilt: 1.4deg"><span class="why-n">4</span><div class="why-top"><svg class="why-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="4.5" cy="18" r="2" fill="none" stroke="#202020" stroke-width="1.5"></circle><circle cx="19.5" cy="18" r="2" fill="none" stroke="#202020" stroke-width="1.5"></circle><path d="M12 3l1.6 5.4L19 10l-5.4 1.6L12 17l-1.6-5.4L5 10l5.4-1.6z" fill="#FF7800" stroke="#202020" stroke-width="1.5" stroke-linejoin="round"></path></svg><h4>Differentiation</h4></div><p class="note-sm">emotional designs <span class="hl-y">stand out</span> in a crowded market.</p></li>
+        <li class="why" style="--tilt: -1.4deg"><span class="why-n">5</span><div class="why-top"><svg class="why-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2L5 13h6l-1 9 8-12h-6z" fill="#FFD92F" stroke="#202020" stroke-width="1.5" stroke-linejoin="round"></path></svg><h4>Motivation &amp; Engagement</h4></div><p class="note-sm">emotional designs can encourage <span class="hl-l">greater engagement</span> and motivate users more.</p></li>
+        <li class="why" style="--tilt: .8deg"><span class="why-n">6</span><div class="why-top"><svg class="why-ico" viewBox="0 0 24 24" aria-hidden="true"><g stroke="#202020" stroke-width="1.3"><circle cx="12" cy="6.5" r="3.2" fill="#FF9BCF"></circle><circle cx="17.3" cy="10.4" r="3.2" fill="#FF9BCF"></circle><circle cx="15.3" cy="16.6" r="3.2" fill="#FF9BCF"></circle><circle cx="8.7" cy="16.6" r="3.2" fill="#FF9BCF"></circle><circle cx="6.7" cy="10.4" r="3.2" fill="#FF9BCF"></circle><circle cx="12" cy="12" r="2.6" fill="#FFD92F"></circle></g></svg><h4>User Well-being</h4></div><p class="note-sm">a good, <span class="hl-l">calming</span> design can contribute to a user's well-being.</p></li>
+        <li class="why" style="--tilt: -.9deg"><span class="why-n">7</span><div class="why-top"><svg class="why-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12V4h8l10 10-8 8z" fill="#C7A9F7" stroke="#202020" stroke-width="1.5" stroke-linejoin="round"></path><circle cx="7.5" cy="8.5" r="1.6" fill="#FFFFFF" stroke="#202020" stroke-width="1.3"></circle></svg><h4>Brand Perception</h4></div><p class="note-sm">emotions associated with a product <span class="hl-p">reflect on the brand</span> as a whole.</p></li>
+      </ol>
+
+      <div style="margin-top: clamp(48px, 6vw, 80px)">
+        <span class="torn blush">04 ½ · psychological factors</span>
+        <h3 class="nhead" style="font-size: clamp(36px, 2.6vw + 20px, 58px)">the little things that make us FEEL ✿</h3>
+        <p class="hand" style="font-size: 20px; color: #5A4A4E; margin: 0">tap a sticker for my tiny gloss on it</p>
+        <ul class="factors">
+          <li class="factor"><button data-tpl type="button" class="f-btn" style="--tilt: -2deg; background: #FFD92F" data-tpl-aria-expanded="{{f1Exp}}" data-on="f1"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="#FFD92F" stroke="#202020" stroke-width="1.6"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2" stroke="#202020" stroke-width="1.6" stroke-linecap="round"></path></svg>Positivity<span class="f-plus" aria-hidden="true"><span data-t="f1Sign"></span></span></button><div class="dc-if" data-if="f1Open" hidden><p class="f-gloss">a warm tone and friendly words that lift the mood.</p></div></li>
+          <li class="factor"><button data-tpl type="button" class="f-btn" style="--tilt: 2deg; background: #FF9BCF" data-tpl-aria-expanded="{{f2Exp}}" data-on="f2"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.8 6.2L20 12l-6.2 1.8L12 20l-1.8-6.2L4 12l6.2-1.8z" fill="#FF9BCF" stroke="#202020" stroke-width="1.6" stroke-linejoin="round"></path></svg>Surprise<span class="f-plus" aria-hidden="true"><span data-t="f2Sign"></span></span></button><div class="dc-if" data-if="f2Open" hidden><p class="f-gloss">small, unexpected moments of delight.</p></div></li>
+          <li class="factor"><button data-tpl type="button" class="f-btn" style="--tilt: -1.5deg; background: #C7A9F7" data-tpl-aria-expanded="{{f3Exp}}" data-on="f3"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18c-2-4-1-10 6-10s8 6 6 10M9 19c-1-3 0-7 3-7s4 4 3 7M12 15v4" fill="none" stroke="#202020" stroke-width="1.6" stroke-linecap="round"></path></svg>Uniqueness<span class="f-plus" aria-hidden="true"><span data-t="f3Sign"></span></span></button><div class="dc-if" data-if="f3Open" hidden><p class="f-gloss">a personality you'd recognise anywhere.</p></div></li>
+          <li class="factor"><button data-tpl type="button" class="f-btn" style="--tilt: 1.5deg; background: #FFFFFF" data-tpl-aria-expanded="{{f4Exp}}" data-on="f4"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z" fill="#FFD8E9" stroke="#202020" stroke-width="1.6" stroke-linejoin="round"></path><circle cx="12" cy="12" r="3" fill="#202020"></circle></svg>Attention<span class="f-plus" aria-hidden="true"><span data-t="f4Sign"></span></span></button><div class="dc-if" data-if="f4Open" hidden><p class="f-gloss">guiding the eye to what matters most.</p></div></li>
+          <li class="factor"><button data-tpl type="button" class="f-btn" style="--tilt: -2.5deg; background: #FFB066" data-tpl-aria-expanded="{{f5Exp}}" data-on="f5"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4v8a6 6 0 0 0 12 0V4h-4v8a2 2 0 0 1-4 0V4z" fill="#FF9BCF" stroke="#202020" stroke-width="1.6" stroke-linejoin="round"></path><path d="M6 7h4M14 7h4" stroke="#202020" stroke-width="1.6"></path></svg>Attraction<span class="f-plus" aria-hidden="true"><span data-t="f5Sign"></span></span></button><div class="dc-if" data-if="f5Open" hidden><p class="f-gloss">things that are simply pleasing to look at.</p></div></li>
+          <li class="factor"><button data-tpl type="button" class="f-btn" style="--tilt: 2deg; background: #FFD8E9" data-tpl-aria-expanded="{{f6Exp}}" data-on="f6"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10c0 5-5 6-5 9 0 3 5 4 5 9H7c0-5 5-6 5-9 0-3-5-4-5-9z" fill="#FFD92F" stroke="#202020" stroke-width="1.6" stroke-linejoin="round"></path></svg>Anticipation<span class="f-plus" aria-hidden="true"><span data-t="f6Sign"></span></span></button><div class="dc-if" data-if="f6Open" hidden><p class="f-gloss">giving people something to look forward to.</p></div></li>
+          <li class="factor"><button data-tpl type="button" class="f-btn" style="--tilt: -1deg; background: #C7A9F7" data-tpl-aria-expanded="{{f7Exp}}" data-on="f7"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="8" r="4.5" fill="#FFD92F" stroke="#202020" stroke-width="1.6"></circle><path d="M11.2 11.2l9 9M16 16l2.2-2.2M18.4 18.4l2.2-2.2" stroke="#202020" stroke-width="1.6" stroke-linecap="round"></path></svg>Exclusivity<span class="f-plus" aria-hidden="true"><span data-t="f7Sign"></span></span></button><div class="dc-if" data-if="f7Open" hidden><p class="f-gloss">the feeling that it was made just for you.</p></div></li>
+          <li class="factor"><button data-tpl type="button" class="f-btn" style="--tilt: 2.5deg; background: #FFD92F" data-tpl-aria-expanded="{{f8Exp}}" data-on="f8"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v10H10l-5 4v-4H4z" fill="#FFFFFF" stroke="#202020" stroke-width="1.6" stroke-linejoin="round"></path><path d="M8 10h.01M12 10h.01M16 10h.01" stroke="#202020" stroke-width="2.4" stroke-linecap="round"></path></svg>Be responsive<span class="f-plus" aria-hidden="true"><span data-t="f8Sign"></span></span></button><div class="dc-if" data-if="f8Open" hidden><p class="f-gloss">a design principle: react to the user, quickly and kindly.</p></div></li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- 05 -->
+    <article data-tpl id="s05" data-tpl-class="{{paperClass}}" aria-labelledby="h05" style="scroll-margin-top: 90px">
+      <span class="torn lav">05 · how to design emotionally</span>
+      <h2 id="h05" class="nhead">how to design with a little more heart ♡</h2>
+      <ol class="howto">
+        <li class="how"><span class="num" aria-hidden="true">1</span><div><h4>Signature personality</h4><p class="note-sm">inject a signature personality, such as a <span class="hl-p">face or mascot</span>.</p></div></li>
+        <li class="how"><span class="num" aria-hidden="true">2</span><div><h4>Engage users as a character</h4><p class="note-sm">engage users as <span class="hl-y">part of the experience</span> rather than treating them as passive visitors.</p></div></li>
+        <li class="how"><span class="num" aria-hidden="true">3</span><div><h4>Colour and contrast</h4><p class="note-sm">use colour and contrast <span class="hl-y">advantageously</span>.</p></div></li>
+        <li class="how"><span class="num" aria-hidden="true">4</span><div><h4>Appropriate terms and phrases</h4><p class="note-sm">craft appropriate terms and phrases.</p></div></li>
+        <li class="how"><span class="num" aria-hidden="true">5</span><div><h4>Consistency across micro-labels</h4><p class="note-sm">maintain consistency across <span class="hl-l">micro-labels</span>.</p></div></li>
+        <li class="how"><span class="num" aria-hidden="true">6</span><div><h4>Sound and video</h4><p class="note-sm">apply sound and videos to the character or experience, where appropriate.</p></div></li>
+        <li class="how"><span class="num" aria-hidden="true">7</span><div><h4>Personalise the experience</h4><p class="note-sm"><span class="hl-p">personalise</span> the experience.</p></div></li>
+        <li class="how"><span class="num" aria-hidden="true">8</span><div><h4>Prizes and surprises</h4><p class="note-sm">offer prizes and <span class="hl-y">surprises</span>.</p></div></li>
+        <li class="how"><span class="num" aria-hidden="true">9</span><div><h4>Storytelling</h4><p class="note-sm">use storytelling.</p></div></li>
+        <li class="how"><span class="num" aria-hidden="true">10</span><div><h4>Attention to detail</h4><p class="note-sm">maintain attention to detail, <span class="u-wavy">especially in error messages</span>.</p></div></li>
+      </ol>
+      <div class="star-row" style="margin-top: 24px">
+        <button data-tpl class="star-btn" type="button" data-tpl-aria-expanded="{{star2Exp}}" aria-controls="ann2" data-on="star2"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.6 6.1 6.6.6-5 4.4 1.5 6.5L12 16.7 6.3 20.1l1.5-6.5-5-4.4 6.6-.6z"></path></svg><span class="sr">show margin note</span></button>
+        <div id="ann2" aria-live="polite">
+          <div class="dc-if" data-if="star2Open" hidden><span class="margin-note">psst: this website tries a few of these. the stickers? that's #8 ✦</span></div>
+        </div>
+      </div>
+    </article>
+
+    <!-- end -->
+    <section class="end reveal" aria-labelledby="end-title">
+      <svg style="position: absolute; top: 18px; left: 22px; width: 54px" class="float" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.6 6.1 6.6.6-5 4.4 1.5 6.5L12 16.7 6.3 20.1l1.5-6.5-5-4.4 6.6-.6z" fill="#FFD92F" stroke="#202020" stroke-width="1.4" stroke-linejoin="round"></path></svg>
+      <svg style="position: absolute; bottom: 20px; right: 26px; width: 60px" class="float-2" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" fill="#FF9BCF" stroke="#202020" stroke-width="1.4" stroke-linejoin="round"></path></svg>
+      <h2 id="end-title" class="end-title">that's all my little scribbles for this week! ♡</h2>
+      <p style="font-family: var(--display); font-size: 20px; margin: 0">you made it to the last page. here's a sticker for reading.</p>
+      <div class="end-row">
+        <button data-tpl type="button" class="btn btn-yel" data-on="collect"><span data-t="collectLabel"></span></button>
+        <a class="btn" href="Spotify.html">now, let's talk about spotify <span aria-hidden="true">→</span></a>
+      </div>
+      <div aria-live="polite">
+        <div class="dc-if" data-if="hasSticker" hidden><p class="reward">★ sticker collected ×<span data-t="stickers"></span> · thank you for reading my notes!</p></div>
+      </div>
+      <div class="dc-if" data-if="burst" hidden>
+        <div class="burst" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span class="h">♡</span><span class="h">✿</span><span class="h">★</span><span class="h">♡</span><span class="h">✦</span></div>
+      </div>
+    </section>
+
+  </div>
+</div>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <p class="hand" style="font-size: 23px">made with curiosity, a little pink, and lots of feelings ♡</p>
+    <p class="eyebrow" style="font-size: 12px">W9 Play &amp; Reflect · INST631</p>
+  </div>
+</footer>
+
+<a class="to-top" href="#top">back to the top ↑</a>
+</div>
+<script>
+/* ---- tiny runtime: state -> DOM (no dependencies) ---- */
+var DC = {
+  comp: null, vals: {},
+  get: function (path) { return path.split('.').reduce(function (o, k) { return o == null ? undefined : o[k]; }, this.vals); },
+  render: function () {
+    var self = this;
+    this.vals = this.comp.renderVals();
+    document.querySelectorAll('[data-if]').forEach(function (el) { el.hidden = !self.get(el.getAttribute('data-if')); });
+    document.querySelectorAll('[data-t]').forEach(function (el) { var v = self.get(el.getAttribute('data-t')); el.textContent = v == null ? '' : String(v); });
+    document.querySelectorAll('[data-tpl]').forEach(function (el) {
+      el.getAttributeNames().forEach(function (a) {
+        if (a.indexOf('data-tpl-') !== 0) return;
+        var name = a.slice(9), tpl = el.getAttribute(a);
+        var whole = tpl.match(/^\{\{\s*([\w.$]+)\s*\}\}$/);
+        if (whole) {
+          var v = self.get(whole[1]);
+          if (v === false || v == null) el.removeAttribute(name);
+          else el.setAttribute(name, v === true ? '' : String(v));
+        } else {
+          el.setAttribute(name, tpl.replace(/\{\{\s*([\w.$]+)\s*\}\}/g, function (_, p) { var v = self.get(p); return v == null ? '' : String(v); }));
+        }
+      });
+    });
+    void document.body.offsetHeight; /* lets re-shown animations restart */
+  }
+};
+class DCLogic {
+  constructor(props) { this.props = props || {}; this.state = {}; }
+  setState(patch, cb) {
+    var next = typeof patch === 'function' ? patch(this.state, this.props) : patch;
+    this.state = Object.assign({}, this.state, next);
+    DC.render();
+    if (cb) cb();
+  }
+  forceUpdate() { DC.render(); }
+}
+document.addEventListener('click', function (e) {
+  var el = e.target.closest('[data-on]');
+  if (!el || el.disabled) return;
+  var fn = DC.get(el.getAttribute('data-on'));
+  if (typeof fn === 'function') fn(e);
+});
+/* ---- page logic ---- */
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { stars: {}, factors: {}, pyr: 0, stickers: 0, burst: false };
+  }
+  componentWillUnmount() { clearTimeout(this._t); }
+  toggle(group, key) {
+    const next = Object.assign({}, this.state[group]);
+    next[key] = !next[key];
+    this.setState({ [group]: next });
+  }
+  renderVals() {
+    const s = this.state;
+    const ruled = this.props.ruledPaper ?? true;
+    const caps = [
+      'tap a level of the pyramid ✎',
+      '1 · Functional: the base. it has to work at all.',
+      '2 · Reliable: it works, consistently.',
+      '3 · Usable: it is easy to use.',
+      '4 · Pleasurable: the top, where it feels good to use ♡'
+    ];
+    const v = {
+      paperClass: ruled ? 'paper ruled page reveal' : 'paper page reveal',
+      pyrCaption: caps[s.pyr],
+      stickers: s.stickers,
+      hasSticker: s.stickers > 0,
+      burst: s.burst,
+      collectLabel: s.stickers > 0 ? 'one more sticker? ★' : 'collect your sticker ★',
+      collect: () => {
+        clearTimeout(this._t);
+        this.setState({ stickers: s.stickers + 1, burst: false }, () => {
+          this.setState({ burst: true });
+          this._t = setTimeout(() => this.setState({ burst: false }), 1600);
+        });
+      }
+    };
+    [1, 2].forEach((i) => {
+      const open = !!s.stars[i];
+      v['star' + i] = () => this.toggle('stars', i);
+      v['star' + i + 'Open'] = open;
+      v['star' + i + 'Closed'] = !open;
+      v['star' + i + 'Exp'] = open ? 'true' : 'false';
+    });
+    for (let i = 1; i <= 8; i++) {
+      const open = !!s.factors[i];
+      v['f' + i] = () => this.toggle('factors', i);
+      v['f' + i + 'Open'] = open;
+      v['f' + i + 'Exp'] = open ? 'true' : 'false';
+      v['f' + i + 'Sign'] = open ? '–' : '+';
+    }
+    for (let i = 1; i <= 4; i++) {
+      const on = s.pyr === i;
+      v['pick' + i] = () => this.setState({ pyr: on ? 0 : i });
+      v['pyr' + i + 'Class'] = on ? 'pyr-lvl on' : 'pyr-lvl';
+      v['pyr' + i + 'Pressed'] = on ? 'true' : 'false';
+    }
+    return v;
+  }
+}
+DC.comp = new Component({});
+DC.render();
+</script>
+</body>
+</html>

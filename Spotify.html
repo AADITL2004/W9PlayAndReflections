@@ -1,0 +1,591 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spotify &amp; Feelings · a student case study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&amp;family=Fredoka:wght@400;500;600;700&amp;family=Patrick+Hand&amp;display=swap">
+<style>
+.dc-if{display:contents}
+.dc-if[hidden]{display:none !important}
+:root{
+  --pink:#FF9BCF;--blush:#FFD8E9;--cream:#FFF9F0;--paper:#FFFDF7;--butter:#FFD92F;--tang:#FF7800;--lav:#C7A9F7;--ink:#202020;--mauve:#B59FA4;--white:#FFFFFF;--blue-ink:#24408E;
+  --green:#3BE48A;--night:#161616;--night-2:#232323;
+  --hand:'Patrick Hand','Comic Neue','Segoe Print','Bradley Hand',cursive;
+  --display:'Fredoka','Baloo 2','Trebuchet MS',system-ui,sans-serif;
+  --sans:'DM Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --blob:28px 34px 26px 38px / 34px 26px 38px 28px;
+  --blob2:46% 54% 42% 58% / 52% 44% 56% 48%;
+  --shadow:4px 5px 0 var(--ink);
+  --fast:.2s;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--ink)}a:hover{color:#6B1E4A}
+:focus-visible{outline:3px dashed var(--blue-ink);outline-offset:4px}
+.dark :focus-visible{outline-color:var(--green)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* nav */
+.site-nav{position:sticky;top:0;z-index:30;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:10px 24px;padding:12px clamp(16px,4vw,56px) 0;background:var(--cream);border-bottom:3px solid var(--ink)}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;padding-bottom:10px;min-height:44px}
+.brand-word{font-family:var(--hand);font-size:25px;line-height:1}
+.brand-here{display:block;font-family:var(--sans);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#5A4A4E;margin-top:3px}
+.brand svg{width:42px;height:42px;flex:none;animation:spin 18s linear infinite}
+.tabs{display:flex;flex-wrap:wrap;gap:6px}
+.tab{display:inline-flex;align-items:center;gap:8px;min-height:46px;padding:10px 18px 12px;border:3px solid var(--ink);border-bottom:none;border-radius:16px 22px 0 0;text-decoration:none;font-family:var(--display);font-weight:500;font-size:17px;color:var(--ink);transform:translateY(5px);transition:transform var(--fast) ease}
+.tab:hover{transform:translateY(-1px) rotate(-1.5deg);color:var(--ink)}
+.tab[aria-current="page"]{transform:translateY(0);padding-bottom:17px;font-weight:700}
+.tab-num{font-family:var(--sans);font-size:12px;font-weight:700;letter-spacing:.08em}
+.t-pink{background:var(--pink)}.t-lav{background:var(--lav)}.t-yel{background:var(--butter)}
+@media (max-width:700px){
+  .site-nav{position:relative;padding-bottom:12px;align-items:center}
+  .tab{border-bottom:3px solid var(--ink);border-radius:14px;transform:none;padding:8px 13px;font-size:15px;min-height:44px}
+  .tab[aria-current="page"]{padding-bottom:8px;box-shadow:3px 3px 0 var(--ink)}
+  .tab .long{display:none}
+}
+
+/* shared */
+.wrap{width:100%;max-width:1180px;margin:0 auto;padding:0 clamp(16px,4vw,48px)}
+.hand{font-family:var(--hand)}
+.eyebrow{font-family:var(--sans);font-weight:700;font-size:13px;letter-spacing:.16em;text-transform:uppercase;margin:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:12px 28px;border:3px solid var(--ink);border-radius:999px;background:var(--ink);color:var(--cream);font-family:var(--display);font-weight:600;font-size:19px;text-decoration:none;box-shadow:4px 5px 0 var(--pink);transition:transform var(--fast),box-shadow var(--fast);cursor:pointer}
+.btn:hover{transform:translate(-2px,-2px) rotate(-1.5deg);box-shadow:7px 8px 0 var(--pink);color:var(--cream)}
+.btn:active{transform:translate(2px,3px);box-shadow:1px 1px 0 var(--pink)}
+.btn-green{background:var(--green);color:var(--ink);box-shadow:4px 5px 0 var(--ink)}
+.btn-green:hover{color:var(--ink);box-shadow:7px 8px 0 var(--ink)}
+.sticker{display:inline-block;background:var(--white);border:2.5px solid var(--ink);border-radius:999px;padding:8px 18px;box-shadow:3px 4px 0 var(--ink);font-family:var(--hand);font-size:23px;line-height:1.1;color:var(--ink);transform:rotate(var(--tilt,-4deg));transition:transform var(--fast)}
+.sticker:hover{transform:rotate(calc(var(--tilt,-4deg) * -1)) scale(1.07)}
+.float{animation:float 5s ease-in-out infinite}
+.float-2{animation:float 6.5s ease-in-out -2s infinite}
+.bob{animation:bob 3.2s ease-in-out infinite}
+.hl-y{background:linear-gradient(transparent 50%,rgba(255,217,47,.9) 50%,rgba(255,217,47,.9) 88%,transparent 88%);padding:0 4px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.hl-p{background:linear-gradient(transparent 46%,rgba(255,155,207,.75) 46%,rgba(255,155,207,.75) 90%,transparent 90%);padding:0 4px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.hl-g{background:linear-gradient(transparent 46%,rgba(59,228,138,.7) 46%,rgba(59,228,138,.7) 90%,transparent 90%);padding:0 4px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.chip{display:inline-flex;align-items:center;min-height:34px;padding:4px 13px;border:2px solid currentColor;border-radius:999px;font-family:var(--sans);font-weight:500;font-size:15px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+
+/* hero */
+.hero{position:relative;overflow:hidden;background:var(--night);color:var(--cream);border-bottom:3px solid var(--ink)}
+.hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr));gap:48px;align-items:center;padding-top:clamp(48px,8vw,104px);padding-bottom:clamp(56px,9vw,116px)}
+.hero h1{font-family:var(--hand);font-weight:400;font-size:clamp(58px,8vw,128px);line-height:.92;margin:18px 0 22px;color:var(--cream)}
+.hero h1 .g{color:var(--green)}
+.hero h1 .heart{display:inline-block;color:var(--pink);animation:beat 2.4s ease-in-out infinite}
+.hero-sub{font-family:var(--display);font-weight:400;font-size:clamp(19px,1.4vw + 10px,24px);line-height:1.45;max-width:32ch;margin:0 0 30px;color:#F3EDE4}
+.hero .eyebrow{color:var(--green)}
+.disclaim{font-family:var(--sans);font-size:14px;color:#D9D2C8;margin:26px 0 0;max-width:46ch;line-height:1.5}
+.shape{position:absolute;z-index:1;pointer-events:none}
+
+/* player mock */
+.player{position:relative;width:min(420px,100%);margin:0 auto;padding:26px;background:var(--pink);border:3px solid var(--ink);border-radius:var(--blob);box-shadow:10px 12px 0 var(--green);color:var(--ink);transform:rotate(-2deg)}
+.vinyl{position:relative;width:min(230px,70%);aspect-ratio:1;margin:0 auto 18px;border-radius:50%;background:repeating-radial-gradient(circle,#1d1d1d 0 3px,#2c2c2c 3px 5px);border:3px solid var(--ink);display:grid;place-items:center}
+.vinyl.on{animation:spin 4s linear infinite}
+.vinyl-label{width:36%;aspect-ratio:1;border-radius:50%;background:var(--butter);border:3px solid var(--ink);display:grid;place-items:center;font-family:var(--hand);font-size:18px}
+.track{font-family:var(--display);font-weight:600;font-size:22px;margin:0}
+.artist{font-family:var(--hand);font-size:20px;margin:2px 0 14px}
+.eq{display:flex;align-items:flex-end;gap:5px;height:44px}
+.eq span{flex:1;background:var(--ink);border-radius:4px 4px 0 0;height:30%;transform-origin:bottom}
+.eq.on span{animation:eq 1s ease-in-out infinite alternate}
+.eq.on span:nth-child(2){animation-duration:.7s}.eq.on span:nth-child(3){animation-duration:1.2s}.eq.on span:nth-child(4){animation-duration:.85s}.eq.on span:nth-child(5){animation-duration:1.05s}.eq.on span:nth-child(6){animation-duration:.6s}.eq.on span:nth-child(7){animation-duration:.95s}.eq.on span:nth-child(8){animation-duration:.75s}
+.play{display:inline-grid;place-items:center;width:60px;height:60px;border-radius:50%;border:3px solid var(--ink);background:var(--green);cursor:pointer;box-shadow:3px 3px 0 var(--ink);transition:transform var(--fast)}
+.play:hover{transform:scale(1.08) rotate(-6deg)}
+
+/* sections */
+.zone{padding:clamp(64px,8vw,120px) 0}
+.feature{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr));gap:clamp(32px,5vw,72px);align-items:start}
+.feature + .feature{margin-top:clamp(80px,10vw,150px)}
+.f-label{display:inline-flex;align-items:center;gap:10px;font-family:var(--sans);font-weight:700;font-size:13px;letter-spacing:.14em;text-transform:uppercase;padding:7px 16px;border:2.5px solid var(--ink);border-radius:999px;background:var(--white)}
+.f-title{font-family:var(--hand);font-weight:400;font-size:clamp(44px,3.6vw + 20px,76px);line-height:1;margin:16px 0 20px}
+.rows{display:flex;flex-direction:column;gap:18px;margin:0}
+.row dt{font-family:var(--sans);font-weight:700;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#4A3E42;margin-bottom:4px}
+.row dd{margin:0;font-size:18px;line-height:1.6}
+.reflect{position:relative;margin:26px 0 0;padding:22px 24px 22px 26px;background:var(--paper);border:2.5px solid var(--ink);border-radius:6px 12px 8px 14px;box-shadow:6px 7px 0 var(--lav);background-image:repeating-linear-gradient(180deg,transparent 0,transparent 33px,rgba(36,64,142,.12) 33px,rgba(36,64,142,.12) 34px);transform:rotate(-.6deg)}
+.reflect p{font-family:var(--hand);color:var(--blue-ink);font-size:23px;line-height:34px;margin:0}
+.reflect .who{display:block;font-family:var(--sans);font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);margin-bottom:6px}
+.caveat{margin:22px 0 0;padding:16px 18px;border:2.5px dashed var(--ink);border-radius:var(--blob);background:var(--blush);font-size:17px;line-height:1.55}
+.caveat b{font-family:var(--hand);font-weight:400;font-size:23px}
+.mock-tag{display:inline-block;font-family:var(--sans);font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;padding:5px 11px;background:var(--butter);border:2px solid var(--ink);border-radius:999px;color:var(--ink)}
+
+/* personalisation demo */
+.demo{position:sticky;top:110px;padding:26px;background:var(--night);color:var(--cream);border:3px solid var(--ink);border-radius:var(--blob);box-shadow:8px 9px 0 var(--pink)}
+.moods{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 22px}
+.mood{min-height:46px;padding:8px 16px;border:2.5px solid var(--cream);border-radius:999px;background:transparent;color:var(--cream);font-family:var(--hand);font-size:21px;cursor:pointer;transition:transform var(--fast),background var(--fast)}
+.mood:hover{transform:rotate(-3deg) scale(1.05)}
+.mood[aria-pressed="true"]{background:var(--green);color:var(--ink);border-color:var(--green)}
+.shelf{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.cover{aspect-ratio:1;border:2.5px solid var(--cream);border-radius:12px;position:relative;overflow:hidden}
+.cover-cap{font-family:var(--hand);font-size:17px;line-height:1.15;margin:6px 0 0;color:#F3EDE4}
+@media (max-width:700px){.demo{position:relative;top:0}}
+
+/* wrapped */
+.wrapped{position:relative;width:min(380px,100%);margin:0 auto;aspect-ratio:9/15;border:3px solid var(--ink);border-radius:28px;box-shadow:10px 12px 0 var(--ink);overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:28px 26px}
+.w-1{background:var(--tang)}.w-2{background:var(--lav)}.w-3{background:var(--green)}
+.w-blob{position:absolute;border:3px solid var(--ink);pointer-events:none}
+.w-dots{display:flex;gap:6px}
+.w-dots span{flex:1;height:6px;border-radius:3px;background:rgba(32,32,32,.25)}
+.w-dots span.on{background:var(--ink)}
+.w-kicker{font-family:var(--sans);font-weight:700;font-size:13px;letter-spacing:.14em;text-transform:uppercase;margin:0}
+.w-big{position:relative;font-family:var(--hand);font-weight:400;font-size:clamp(40px,4vw + 18px,58px);line-height:.98;margin:0}
+.w-art{position:relative;width:62%;aspect-ratio:1;margin:0 auto;border:3px solid var(--ink);border-radius:var(--blob2);transform:rotate(-6deg)}
+.w-ctrl{display:flex;justify-content:center;align-items:center;gap:14px;margin-top:22px}
+.round{display:inline-grid;place-items:center;width:52px;height:52px;border-radius:50%;border:3px solid var(--ink);background:var(--white);font-family:var(--display);font-weight:700;font-size:22px;cursor:pointer;box-shadow:3px 3px 0 var(--ink);transition:transform var(--fast)}
+.round:hover{transform:scale(1.08) rotate(-6deg)}
+.round:disabled{opacity:.4;cursor:default;transform:none}
+
+/* nudge */
+.nudge{width:min(400px,100%);margin:0 auto;padding:28px;background:var(--white);border:3px solid var(--ink);border-radius:24px;box-shadow:10px 12px 0 var(--pink);text-align:center}
+.nudge h4{font-family:var(--hand);font-weight:400;font-size:38px;line-height:1.05;margin:12px 0 8px}
+.nudge-row{display:flex;flex-direction:column;gap:10px;margin-top:20px}
+.ghost{min-height:48px;border:none;background:none;font-family:var(--display);font-weight:500;font-size:17px;text-decoration:underline;text-underline-offset:4px;cursor:pointer;color:var(--ink)}
+.vs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:16px;margin-top:22px}
+.vs-col{padding:18px 20px;border:2.5px solid var(--ink);border-radius:var(--blob)}
+.vs-col h5{font-family:var(--hand);font-weight:400;font-size:27px;margin:0 0 8px}
+.vs-col ul{margin:0;padding-left:20px;font-size:17px;line-height:1.6}
+
+/* playlists */
+.tapes{display:flex;flex-direction:column;gap:14px;margin:0;padding:0;list-style:none}
+.tape-btn{display:flex;align-items:center;gap:16px;width:100%;min-height:72px;padding:12px 18px;border:3px solid var(--ink);border-radius:18px;font-family:var(--hand);font-size:25px;text-align:left;color:var(--ink);cursor:pointer;box-shadow:4px 4px 0 var(--ink);transform:rotate(var(--tilt,0deg));transition:transform var(--fast)}
+.tape-btn:hover{transform:rotate(0) translateX(6px)}
+.tape-btn[aria-pressed="true"]{transform:rotate(0) translateX(10px);box-shadow:6px 6px 0 var(--ink)}
+.reels{display:flex;gap:8px;flex:none}
+.reels span{width:26px;height:26px;border-radius:50%;border:3px solid var(--ink);background:var(--white)}
+.tape-btn[aria-pressed="true"] .reels span{animation:spin 2s linear infinite;border-style:dashed}
+.mood-note{font-family:var(--hand);font-size:23px;color:var(--blue-ink);margin:14px 0 0;min-height:32px}
+
+/* levels + pyramid */
+.dark-zone{background:var(--night);color:var(--cream);border-top:3px solid var(--ink);border-bottom:3px solid var(--ink)}
+.sec-title{font-family:var(--hand);font-weight:400;font-size:clamp(44px,3.6vw + 20px,76px);line-height:1;margin:14px 0 18px}
+.lvls{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:24px;margin-top:34px}
+.lvl{padding:24px;border:3px solid var(--cream);border-radius:var(--blob);transition:transform var(--fast)}
+.lvl:hover{transform:translateY(-6px) rotate(-1deg)}
+.lvl h3{font-family:var(--hand);font-weight:400;font-size:38px;margin:10px 0 8px;color:var(--ink)}
+.lvl p{margin:0;font-size:17px;line-height:1.6;color:var(--ink)}
+.lvl .eyebrow{color:var(--ink)}
+.overlap{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-top:30px;font-family:var(--hand);font-size:24px;color:var(--cream)}
+.venn{position:relative;width:96px;height:56px;flex:none}
+.venn span{position:absolute;top:0;width:56px;height:56px;border-radius:50%;border:2.5px solid var(--cream);mix-blend-mode:screen}
+.pyr-rows{display:flex;flex-direction:column;gap:10px;margin-top:34px}
+.pyr-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:14px 34px;align-items:center}
+.pyr-cell{display:flex;justify-content:center}
+.pyr-lvl{display:flex;align-items:center;justify-content:center;width:var(--w);min-height:68px;border:2.5px solid var(--ink);font-family:var(--hand);font-size:clamp(20px,1.2vw + 14px,29px);color:var(--ink);transition:transform var(--fast)}
+.pyr-row:hover .pyr-lvl{transform:scale(1.05) rotate(-1deg);box-shadow:5px 5px 0 var(--ink)}
+.pyr-row p{margin:0;font-size:17px;line-height:1.6}
+@media (max-width:700px){.pyr-row{grid-template-columns:1fr;gap:8px;margin-bottom:12px}}
+
+/* closing */
+.closing{position:relative;padding:clamp(40px,6vw,80px) clamp(20px,5vw,72px);background:var(--pink);border:3px solid var(--ink);border-radius:var(--blob);box-shadow:10px 11px 0 var(--ink);overflow:hidden}
+.closing p.body{font-size:clamp(17px,.4vw + 15px,20px);line-height:1.65;max-width:62ch;margin:0 0 14px}
+.final-note{display:inline-block;margin:22px 0 30px;padding:16px 24px;background:var(--paper);border:2.5px solid var(--ink);border-radius:6px 12px 8px 14px;font-family:var(--hand);font-size:clamp(26px,1.4vw + 18px,36px);line-height:1.25;color:var(--blue-ink);transform:rotate(-1.5deg);box-shadow:5px 6px 0 var(--butter),5px 6px 0 2.5px var(--ink)}
+
+.foot{border-top:3px solid var(--ink);background:var(--blush);padding:28px 0 34px}
+.foot-in{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px 24px}
+.foot p{margin:0}
+
+@supports (animation-timeline: view()){
+  @media (prefers-reduced-motion: no-preference){
+    .reveal{animation:rise linear both;animation-timeline:view();animation-range:entry 0% entry 38%}
+  }
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes float{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-14px) rotate(6deg)}}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(var(--tilt,-6deg))}50%{transform:translateY(-8px) rotate(var(--tilt,-6deg))}}
+@keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.18)}30%{transform:scale(1)}45%{transform:scale(1.1)}}
+@keyframes eq{0%{transform:scaleY(.35)}100%{transform:scaleY(3)}}
+@keyframes pop{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:none}}
+@keyframes rise{from{opacity:0;transform:translateY(34px)}to{opacity:1;transform:none}}
+.pop{animation:pop .35s cubic-bezier(.3,1.6,.5,1) both}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none !important;transition:none !important}
+}
+</style>
+</head>
+<body>
+<div id="top">
+<header class="site-nav">
+  <a class="brand" href="index.html" aria-label="little notes on big feelings, back to notes">
+    <svg viewBox="0 0 48 48" aria-hidden="true"><g stroke="#202020" stroke-width="2.2"><circle cx="24" cy="11" r="8" fill="#FF9BCF"></circle><circle cx="36.4" cy="20" r="8" fill="#FFD92F"></circle><circle cx="31.6" cy="34.6" r="8" fill="#C7A9F7"></circle><circle cx="16.4" cy="34.6" r="8" fill="#FF9BCF"></circle><circle cx="11.6" cy="20" r="8" fill="#FFD92F"></circle><circle cx="24" cy="24" r="6.5" fill="#FF7800"></circle></g></svg>
+    <span><span class="brand-word">big feelings</span><span class="brand-here">you are on page 2 of 3</span></span>
+  </a>
+  <nav aria-label="Site pages">
+    <div class="tabs">
+      <a class="tab t-pink" href="index.html"><span class="tab-num">01</span> My Notes</a>
+      <a class="tab t-lav" href="Spotify.html" aria-current="page"><span class="tab-num">02</span> Spotify<span class="long">&#160;&amp; Feelings</span></a>
+      <a class="tab t-yel" href="About.html"><span class="tab-num">03</span> About<span class="long">&#160;Me</span></a>
+    </div>
+  </nav>
+</header>
+
+<main>
+<!-- HERO -->
+<section class="hero dark" aria-labelledby="sp-title">
+  <svg class="shape" style="top: -80px; left: 38%; width: clamp(180px, 22vw, 320px)" viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="92" fill="#C7A9F7" stroke="#202020" stroke-width="3"></circle></svg>
+  <svg class="shape" style="bottom: -90px; right: -60px; width: clamp(220px, 30vw, 460px)" viewBox="0 0 200 200" aria-hidden="true"><path d="M48 30c40-30 112-22 136 26s4 118-48 132S10 172 8 118 8 60 48 30z" fill="#FFD92F" stroke="#202020" stroke-width="3"></path></svg>
+  <svg class="shape float" style="top: 22%; right: 6%; width: 60px" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5l11-2v13" fill="none" stroke="#3BE48A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="6" cy="18" r="3" fill="#3BE48A"></circle><circle cx="17" cy="16" r="3" fill="#3BE48A"></circle></svg>
+  <svg class="shape float-2" style="bottom: 18%; left: 4%; width: 54px" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.6 6.1 6.6.6-5 4.4 1.5 6.5L12 16.7 6.3 20.1l1.5-6.5-5-4.4 6.6-.6z" fill="#FF9BCF" stroke="#FFF9F0" stroke-width="1.4" stroke-linejoin="round"></path></svg>
+
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">Emotional design in the wild · Case study 01</p>
+      <h1 id="sp-title"><span class="g">spotify</span> gets the feels <span class="heart" aria-hidden="true">♡</span></h1>
+      <p class="hero-sub">a little look at how music, personalisation, and tiny surprises turn an app into an experience.</p>
+      <a class="btn btn-green" href="#good-stuff">explore the good stuff <span aria-hidden="true">↓</span></a>
+      <p class="disclaim">An independent student case study for INST631. Not affiliated with or endorsed by Spotify. Every screen on this page is my own illustrated mock-up, and Spotify's feature names can change over time.</p>
+    </div>
+    <div style="position: relative; padding: 20px 0">
+      <div class="player">
+        <span class="mock-tag" style="position: absolute; top: -16px; left: 22px">a pretend player</span>
+        <div data-tpl data-tpl-class="{{vinylClass}}" aria-hidden="true"><div class="vinyl-label">♡</div></div>
+        <p class="track">a song that feels like you</p>
+        <p class="artist">by: your favourite artist</p>
+        <div style="display: flex; align-items: center; gap: 18px">
+          <button data-tpl type="button" class="play" data-tpl-aria-pressed="{{playPressed}}" data-on="togglePlay">
+            <div class="dc-if" data-if="playing"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="5" height="16" rx="1.5" fill="#202020"></rect><rect x="14" y="4" width="5" height="16" rx="1.5" fill="#202020"></rect></svg></div>
+            <div class="dc-if" data-if="paused" hidden><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z" fill="#202020" stroke="#202020" stroke-width="1.5" stroke-linejoin="round"></path></svg></div>
+            <span class="sr"><span data-t="playLabel"></span></span>
+          </button>
+          <div data-tpl data-tpl-class="{{eqClass}}" style="flex: 1" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        </div>
+      </div>
+      <span class="sticker bob" style="--tilt: 8deg; position: absolute; top: 0; right: 0; background: #3BE48A">turn it up ♪</span>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<div class="zone" id="good-stuff" style="scroll-margin-top: 80px">
+  <div class="wrap">
+
+    <!-- 01 personalisation -->
+    <section class="feature reveal" aria-labelledby="f1t">
+      <div>
+        <span class="f-label" style="background: #FF9BCF">Feature 01 · Personalisation</span>
+        <h2 id="f1t" class="f-title">made just for you ♡</h2>
+        <dl class="rows">
+          <div class="row"><dt>What Spotify does</dt><dd>Home is shaped around what you listen to: personalised mixes and recommendation shelves (long-running examples include Discover Weekly and the Daily Mixes), plus <b>Your Library</b>, where your saved songs, albums and playlists live.</dd></div>
+          <div class="row"><dt>The emotional design principle</dt><dd><span class="hl-p">Personalise the experience</span>, which links to <span class="hl-y">exclusivity</span> from my notes: the feeling that something was made for you.</dd></div>
+          <div class="row"><dt>Why it can work (HCI)</dt><dd>Relevant suggestions cut down the effort of finding something to play (behavioural level). A library that slowly fills with your choices builds a sense of ownership and personal relevance (reflective level). Together, that can turn into emotional connection and repeat engagement.</dd></div>
+        </dl>
+        <ul class="chips" style="margin-top: 18px" aria-label="concepts">
+          <li class="chip">personal relevance</li><li class="chip">perceived ownership</li><li class="chip">emotional connection</li><li class="chip">less effort</li><li class="chip">engagement</li>
+        </ul>
+        <blockquote class="reflect"><span class="who">my reflection</span><p>"I like how Spotify makes music feel personal rather than presenting everyone with exactly the same experience. The interface gives me a sense that my listening habits and preferences matter."</p></blockquote>
+        <p class="caveat"><b>but also…</b> recommendations can loop you back into the same few sounds, and a wrong guess can feel oddly impersonal. Personalisation only feels good when it feels accurate.</p>
+      </div>
+      <div class="demo">
+        <span class="mock-tag">try it · a fictional demo</span>
+        <p style="font-family: var(--display); font-size: 21px; margin: 16px 0 0">how are you feeling today?</p>
+        <div class="moods" role="group" aria-label="pick a mood">
+          
+            <button data-tpl type="button" class="mood" data-tpl-aria-pressed="{{moods.0.pressed}}" data-on="moods.0.pick"><span data-t="moods.0.label"></span></button>
+          
+            <button data-tpl type="button" class="mood" data-tpl-aria-pressed="{{moods.1.pressed}}" data-on="moods.1.pick"><span data-t="moods.1.label"></span></button>
+          
+            <button data-tpl type="button" class="mood" data-tpl-aria-pressed="{{moods.2.pressed}}" data-on="moods.2.pick"><span data-t="moods.2.label"></span></button>
+          
+            <button data-tpl type="button" class="mood" data-tpl-aria-pressed="{{moods.3.pressed}}" data-on="moods.3.pick"><span data-t="moods.3.label"></span></button>
+          
+        </div>
+        <p class="hand" style="font-size: 23px; margin: 0 0 12px; color: #FFF9F0" aria-live="polite">made for you: <span style="color: #3BE48A"><span data-t="moodTitle"></span></span></p>
+        <div class="shelf">
+          
+            <div>
+              <div data-tpl class="cover" data-tpl-style="background: {{covers.0.bg}}" aria-hidden="true">
+                <svg viewBox="0 0 100 100" style="position: absolute; inset: 0; width: 100%; height: 100%"><circle data-tpl data-tpl-cx="{{covers.0.x}}" data-tpl-cy="{{covers.0.y}}" data-tpl-r="{{covers.0.r}}" data-tpl-fill="{{covers.0.fg}}" stroke="#202020" stroke-width="3"></circle><path d="M0 78 C 25 62, 45 92, 100 70" fill="none" stroke="#202020" stroke-width="3"></path></svg>
+              </div>
+              <p class="cover-cap"><span data-t="covers.0.name"></span></p>
+            </div>
+          
+            <div>
+              <div data-tpl class="cover" data-tpl-style="background: {{covers.1.bg}}" aria-hidden="true">
+                <svg viewBox="0 0 100 100" style="position: absolute; inset: 0; width: 100%; height: 100%"><circle data-tpl data-tpl-cx="{{covers.1.x}}" data-tpl-cy="{{covers.1.y}}" data-tpl-r="{{covers.1.r}}" data-tpl-fill="{{covers.1.fg}}" stroke="#202020" stroke-width="3"></circle><path d="M0 78 C 25 62, 45 92, 100 70" fill="none" stroke="#202020" stroke-width="3"></path></svg>
+              </div>
+              <p class="cover-cap"><span data-t="covers.1.name"></span></p>
+            </div>
+          
+            <div>
+              <div data-tpl class="cover" data-tpl-style="background: {{covers.2.bg}}" aria-hidden="true">
+                <svg viewBox="0 0 100 100" style="position: absolute; inset: 0; width: 100%; height: 100%"><circle data-tpl data-tpl-cx="{{covers.2.x}}" data-tpl-cy="{{covers.2.y}}" data-tpl-r="{{covers.2.r}}" data-tpl-fill="{{covers.2.fg}}" stroke="#202020" stroke-width="3"></circle><path d="M0 78 C 25 62, 45 92, 100 70" fill="none" stroke="#202020" stroke-width="3"></path></svg>
+              </div>
+              <p class="cover-cap"><span data-t="covers.2.name"></span></p>
+            </div>
+          
+        </div>
+        <p style="font-size: 14px; color: #D9D2C8; margin: 18px 0 0; line-height: 1.5">The shelf re-labels itself to your pick: a tiny version of personalisation. Mix names are invented.</p>
+      </div>
+    </section>
+
+    <!-- 02 wrapped -->
+    <section class="feature reveal" aria-labelledby="f2t">
+      <div>
+        <span class="f-label" style="background: #FFD92F">Feature 02 · Spotify Wrapped</span>
+        <h2 id="f2t" class="f-title">your year, in your music ✨</h2>
+        <dl class="rows">
+          <div class="row"><dt>What Spotify does</dt><dd>Toward the end of each year, Wrapped turns a listener's history into a short, tap-through story (top artists, songs and genres) with cards designed to be shared.</dd></div>
+          <div class="row"><dt>The emotional design principles</dt><dd><span class="hl-y">Storytelling</span>, <span class="hl-y">surprise</span> and <span class="hl-y">anticipation</span>, plus prizes-and-surprises from my list of techniques.</dd></div>
+          <div class="row"><dt>Why it can work (HCI)</dt><dd>A table of play counts is information; a sequence of reveals is a story. Pacing the data one slide at a time makes each one a small surprise, and framing it as <i>who you were this year</i> moves it to the reflective level, tied to identity and memory. Share cards then add social connection, which makes the whole thing more memorable.</dd></div>
+        </dl>
+        <ul class="chips" style="margin-top: 18px" aria-label="concepts">
+          <li class="chip">reflection</li><li class="chip">identity</li><li class="chip">surprise</li><li class="chip">anticipation</li><li class="chip">storytelling</li><li class="chip">shareability</li><li class="chip">social connection</li><li class="chip">memorability</li>
+        </ul>
+        <blockquote class="reflect"><span class="who">my reflection</span><p>"Wrapped is a particularly interesting example because it gives people a reason to revisit their experiences and share a personal story. It makes listening history feel like something worth celebrating."</p></blockquote>
+        <p class="caveat"><b>but also…</b> not everyone wants their year summarised, or broadcast. A shared account or a sleep-sounds habit can produce a story that doesn't feel like you at all.</p>
+      </div>
+      <div>
+        <div data-tpl data-tpl-class="{{wClass}}" role="group" aria-roledescription="story" aria-label="fictional year-in-review mock-up">
+          <div class="w-dots" aria-hidden="true"><span data-tpl data-tpl-class="{{d1}}"></span><span data-tpl data-tpl-class="{{d2}}"></span><span data-tpl data-tpl-class="{{d3}}"></span></div>
+          <svg class="w-blob" style="top: 26%; right: -40px; width: 160px; height: 160px; border: none" viewBox="0 0 100 100" aria-hidden="true"><path d="M30 8c26-12 58 2 64 30s-10 56-40 58S2 80 4 50 8 18 30 8z" fill="#FFF9F0" stroke="#202020" stroke-width="3"></path></svg>
+          <div class="dc-if" data-if="w1">
+            <div class="pop" style="position: relative; display: flex; flex-direction: column; gap: 18px">
+              <p class="w-kicker">slide 1 · your year in sound</p>
+              <p class="w-big">you pressed play a LOT this year.</p>
+              <p style="font-family: var(--display); font-weight: 600; font-size: 44px; margin: 0">[##,###] <span style="font-size: 20px">minutes</span></p>
+              <p style="font-size: 14px; margin: 0">placeholder number: this mock-up shows no real data.</p>
+            </div>
+          </div>
+          <div class="dc-if" data-if="w2" hidden>
+            <div class="pop" style="position: relative; display: flex; flex-direction: column; gap: 18px">
+              <p class="w-kicker">slide 2 · on repeat</p>
+              <div class="w-art" style="background: #FF9BCF"><svg viewBox="0 0 100 100" style="width: 100%; height: 100%" aria-hidden="true"><path d="M50 78s-24-15-24-34a13 13 0 0 1 24-7 13 13 0 0 1 24 7c0 19-24 34-24 34z" fill="#FFD92F" stroke="#202020" stroke-width="3" stroke-linejoin="round"></path></svg></div>
+              <p class="w-big">a playlist that felt like home</p>
+            </div>
+          </div>
+          <div class="dc-if" data-if="w3" hidden>
+            <div class="pop" style="position: relative; display: flex; flex-direction: column; gap: 16px">
+              <p class="w-kicker">slide 3 · your listening personality</p>
+              <p class="w-big">the soft-hearted explorer ✿</p>
+              <p style="font-size: 17px; line-height: 1.5; margin: 0">comfort songs on repeat, plus one brave new genre a month.</p>
+              <span class="sticker" style="--tilt: -3deg; align-self: flex-start; font-size: 20px">share this card ↗</span>
+            </div>
+          </div>
+          <p style="position: relative; font-family: var(--sans); font-weight: 700; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; margin: 0">fictional mock-up · <span data-t="wCount"></span></p>
+        </div>
+        <div class="w-ctrl">
+          <button data-tpl type="button" class="round" data-on="wPrev" data-tpl-disabled="{{wAtStart}}" aria-label="previous slide">←</button>
+          <span class="hand" style="font-size: 22px" aria-live="polite"><span data-t="wCount"></span></span>
+          <button data-tpl type="button" class="round" data-on="wNext" data-tpl-disabled="{{wAtEnd}}" aria-label="next slide">→</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 we miss you -->
+    <section class="feature reveal" aria-labelledby="f3t">
+      <div>
+        <span class="f-label" style="background: #C7A9F7">Feature 03 · Re-engagement</span>
+        <h2 id="f3t" class="f-title">hey, we miss you ♡</h2>
+        <dl class="rows">
+          <div class="row"><dt>What Spotify does</dt><dd>When a Premium subscription expires, a returning listener can see warm, personal messages that invite them to come back and reconsider their subscription.</dd></div>
+          <div class="row"><dt>The emotional design principles</dt><dd><span class="hl-p">Familiarity</span>, a sense of <span class="hl-p">continuity</span> (your music is still here), <span class="hl-y">personal relevance</span>, <span class="hl-y">anticipation</span>, and <span class="hl-g">loss aversion</span>: people tend to weigh losing something more heavily than gaining something.</dd></div>
+          <div class="row"><dt>Why it can work (HCI)</dt><dd>It reminds people of value they've already built (playlists, a library, years of taste) instead of selling something new. That continuity can make returning feel natural rather than like starting over.</dd></div>
+        </dl>
+        <p class="caveat"><b>the critical bit:</b> emotional design isn't automatically positive. The same warm message that feels friendly to one person can feel guilt-inducing, intrusive or manipulative to another. The line sits between an <i>invitation</i> to return and <i>pressure</i> to resubscribe.</p>
+        <div class="vs">
+          <div class="vs-col" style="background: #FFFFFF"><h5>an invitation ♡</h5><ul><li>says clearly what you're choosing</li><li>makes "no" as easy as "yes"</li><li>reminds you what you keep</li><li>respects your timing</li></ul></div>
+          <div class="vs-col" style="background: #FFD8E9"><h5>emotional pressure ✕</h5><ul><li>guilt-trips ("don't leave us!")</li><li>hides the way out</li><li>threatens what you'll lose</li><li>repeats until you give in</li></ul></div>
+        </div>
+      </div>
+      <div>
+        <div class="nudge">
+          <span class="mock-tag">conceptual mock-up · not a real Spotify screen</span>
+          <svg width="64" height="64" viewBox="0 0 24 24" style="margin-top: 18px" class="float" aria-hidden="true"><path d="M9 18V5l11-2v13" fill="none" stroke="#202020" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="6" cy="18" r="3" fill="#FF9BCF" stroke="#202020" stroke-width="1.5"></circle><circle cx="17" cy="16" r="3" fill="#3BE48A" stroke="#202020" stroke-width="1.5"></circle></svg>
+          <h4>your music is still here ♡</h4>
+          <p style="font-size: 17px; line-height: 1.55; margin: 0">ready to make a little more room for music?</p>
+          <div class="nudge-row">
+            <button data-tpl type="button" class="btn btn-green" data-on="explore">explore your options</button>
+            <button data-tpl type="button" class="ghost" data-on="notNow">not now</button>
+          </div>
+          <div aria-live="polite">
+            <div class="dc-if" data-if="nudgeExplore" hidden><p class="hand pop" style="font-size: 22px; color: #24408E; margin: 14px 0 0">(just a mock-up, so no plans here. a fair version would list every option, prices included, plus how to cancel.)</p></div>
+            <div class="dc-if" data-if="nudgeNo" hidden><p class="hand pop" style="font-size: 22px; color: #24408E; margin: 14px 0 0">no worries. your playlists will be right here ♡ (a respectful "no" ends the conversation.)</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 playlists -->
+    <section class="feature reveal" aria-labelledby="f4t">
+      <div>
+        <span class="f-label" style="background: #3BE48A">Feature 04 · Musical identity</span>
+        <h2 id="f4t" class="f-title">a soundtrack that feels like you ♪</h2>
+        <dl class="rows">
+          <div class="row"><dt>What Spotify does</dt><dd>Listeners save albums, build personal playlists and collect music over time. That collection sits right next to the discovery features that keep adding new songs to it.</dd></div>
+          <div class="row"><dt>The emotional design principles</dt><dd><span class="hl-p">Personalisation</span>, <span class="hl-y">familiarity</span> and <span class="hl-y">ownership</span>, plus the <span class="hl-g">surprise</span> of discovery.</dd></div>
+          <div class="row"><dt>Why it can work (HCI)</dt><dd>Music is closely tied to memory and mood, so revisiting familiar songs can bring back nostalgia and a sense of who you were. Discovery adds small moments of delight, and the habit of returning to "your" playlists builds engagement. For some people, though, it's simply background music, and that's fine too.</dd></div>
+        </dl>
+        <ul class="chips" style="margin-top: 18px" aria-label="concepts">
+          <li class="chip">personalisation</li><li class="chip">familiarity</li><li class="chip">ownership</li><li class="chip">nostalgia</li><li class="chip">emotional connection</li><li class="chip">habit &amp; engagement</li>
+        </ul>
+        <blockquote class="reflect"><span class="who">my reflection</span><p>"I find it interesting that music collections can become more than a list of songs. They can reflect different moods, memories, relationships, and parts of someone's identity."</p></blockquote>
+      </div>
+      <div>
+        <span class="mock-tag">example playlists · made up for this page</span>
+        <ul class="tapes" style="margin-top: 16px">
+          
+            <li><button data-tpl type="button" class="tape-btn" data-tpl-style="background: {{tapes.0.bg}}; --tilt: {{tapes.0.tilt}}" data-tpl-aria-pressed="{{tapes.0.pressed}}" data-on="tapes.0.pick"><span class="reels" aria-hidden="true"><span></span><span></span></span><span data-t="tapes.0.name"></span></button></li>
+          
+            <li><button data-tpl type="button" class="tape-btn" data-tpl-style="background: {{tapes.1.bg}}; --tilt: {{tapes.1.tilt}}" data-tpl-aria-pressed="{{tapes.1.pressed}}" data-on="tapes.1.pick"><span class="reels" aria-hidden="true"><span></span><span></span></span><span data-t="tapes.1.name"></span></button></li>
+          
+            <li><button data-tpl type="button" class="tape-btn" data-tpl-style="background: {{tapes.2.bg}}; --tilt: {{tapes.2.tilt}}" data-tpl-aria-pressed="{{tapes.2.pressed}}" data-on="tapes.2.pick"><span class="reels" aria-hidden="true"><span></span><span></span></span><span data-t="tapes.2.name"></span></button></li>
+          
+            <li><button data-tpl type="button" class="tape-btn" data-tpl-style="background: {{tapes.3.bg}}; --tilt: {{tapes.3.tilt}}" data-tpl-aria-pressed="{{tapes.3.pressed}}" data-on="tapes.3.pick"><span class="reels" aria-hidden="true"><span></span><span></span></span><span data-t="tapes.3.name"></span></button></li>
+          
+        </ul>
+        <p class="mood-note" aria-live="polite"><span data-t="tapeNote"></span></p>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- THREE LEVELS -->
+<section class="dark-zone dark zone" aria-labelledby="lv-title">
+  <div class="wrap">
+    <p class="eyebrow" style="color: #3BE48A">Back to my notes · the 3 cognitive levels</p>
+    <h2 id="lv-title" class="sec-title">the three levels, but make it spotify</h2>
+    <div class="lvls">
+      <article class="lvl reveal" style="background: #FFD92F"><p class="eyebrow">Visceral · first impressions</p><h3>Visceral</h3><p>Immediate reactions to the interface's colours, imagery, animations and visual composition: bold artwork, dark backgrounds, things that move with the music.</p></article>
+      <article class="lvl reveal" style="background: #FF9BCF"><p class="eyebrow">Behavioural · ease of use</p><h3>Behavioural</h3><p>How easily people can discover music, play songs, organise their library and finish what they came to do, often without thinking about it.</p></article>
+      <article class="lvl reveal" style="background: #C7A9F7"><p class="eyebrow">Reflective · after-use judgement</p><h3>Reflective</h3><p>How people interpret their listening history, memories, preferences and identity through their music. Wrapped lives here, mostly.</p></article>
+    </div>
+    <p class="overlap"><span class="venn" aria-hidden="true"><span style="left: 0; background: #FFD92F"></span><span style="left: 20px; background: #FF9BCF"></span><span style="left: 40px; background: #C7A9F7"></span></span> the levels overlap. Wrapped's colours are visceral, tapping through it is behavioural, and what it says about you is reflective. No feature belongs to just one level.</p>
+  </div>
+</section>
+
+<!-- PYRAMID -->
+<section class="zone" aria-labelledby="py-title">
+  <div class="wrap">
+    <p class="eyebrow">Back to my notes · hierarchy of user needs</p>
+    <h2 id="py-title" class="sec-title">from functional to delightful</h2>
+    <p style="font-size: 18px; line-height: 1.6; max-width: 62ch; margin: 0">A conceptual application of the pyramid from my notes. Spotify hasn't been formally evaluated against it here; it's a way of thinking about which layers the good feelings rest on.</p>
+    <div class="pyr-rows">
+      <div class="pyr-row reveal"><div class="pyr-cell"><div class="pyr-lvl" style="--w: 38%; background: #FF9BCF; border-radius: 50% 50% 10px 14px / 80% 80% 12px 10px; min-height: 86px; padding-top: 20px">Pleasurable</div></div><p><b>Pleasurable.</b> Personalised recommendations, engaging visuals, Wrapped and emotionally meaningful moments can add delight beyond basic functionality.</p></div>
+      <div class="pyr-row reveal"><div class="pyr-cell"><div class="pyr-lvl" style="--w: 58%; background: #C7A9F7; border-radius: 12px 16px 10px 18px / 14px 10px 16px 12px">Usable</div></div><p><b>Usable.</b> People need to navigate music, find content and manage their libraries without unnecessary effort.</p></div>
+      <div class="pyr-row reveal"><div class="pyr-cell"><div class="pyr-lvl" style="--w: 79%; background: #FFD92F; border-radius: 14px 10px 18px 12px / 10px 16px 12px 14px">Reliable</div></div><p><b>Reliable.</b> The experience depends on playback, saved content and core functions working consistently.</p></div>
+      <div class="pyr-row reveal"><div class="pyr-cell"><div class="pyr-lvl" style="--w: 100%; background: #FFB066; border-radius: 10px 18px 12px 16px / 16px 12px 14px 10px">Functional</div></div><p><b>Functional.</b> The app provides music playback and music discovery.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section style="padding: 0 0 clamp(64px, 8vw, 120px)" aria-labelledby="cl-title">
+  <div class="wrap">
+    <div class="closing reveal">
+      <svg style="position: absolute; top: -30px; right: -30px; width: 180px" class="float-2" viewBox="0 0 200 200" aria-hidden="true"><path d="M100 6l14 34 34-16-6 37 37 6-27 25 25 28-37 4 4 37-34-14-10 36-22-30-30 22-2-38-37-4 22-30-30-22 36-10-14-34 37 4 4-37 30 22z" fill="#FF7800" stroke="#202020" stroke-width="3"></path></svg>
+      <h2 id="cl-title" class="sec-title" style="position: relative">so, why does it work? ♡</h2>
+      <p class="body">Spotify shows that emotional design can go well beyond a nice-looking interface. Its strongest moments connect functionality with personal relevance, anticipation, identity, storytelling and social sharing, so the app feels less like a tool and more like something that knows you a little.</p>
+      <p class="body">But good emotional design should respect people's autonomy and well-being, not just chase engagement or re-engagement. The warmest message is the one that's also easy to say no to.</p>
+      <p class="final-note">good design works. great design makes you FEEL something.</p>
+      <div><a class="btn" href="About.html">a little about this project <span aria-hidden="true">→</span></a></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <p class="hand" style="font-size: 23px">made with curiosity, a little pink, and lots of feelings ♡</p>
+    <p class="eyebrow" style="font-size: 12px">W9 Play &amp; Reflect · INST631</p>
+  </div>
+</footer>
+</div>
+<script>
+/* ---- tiny runtime: state -> DOM (no dependencies) ---- */
+var DC = {
+  comp: null, vals: {},
+  get: function (path) { return path.split('.').reduce(function (o, k) { return o == null ? undefined : o[k]; }, this.vals); },
+  render: function () {
+    var self = this;
+    this.vals = this.comp.renderVals();
+    document.querySelectorAll('[data-if]').forEach(function (el) { el.hidden = !self.get(el.getAttribute('data-if')); });
+    document.querySelectorAll('[data-t]').forEach(function (el) { var v = self.get(el.getAttribute('data-t')); el.textContent = v == null ? '' : String(v); });
+    document.querySelectorAll('[data-tpl]').forEach(function (el) {
+      el.getAttributeNames().forEach(function (a) {
+        if (a.indexOf('data-tpl-') !== 0) return;
+        var name = a.slice(9), tpl = el.getAttribute(a);
+        var whole = tpl.match(/^\{\{\s*([\w.$]+)\s*\}\}$/);
+        if (whole) {
+          var v = self.get(whole[1]);
+          if (v === false || v == null) el.removeAttribute(name);
+          else el.setAttribute(name, v === true ? '' : String(v));
+        } else {
+          el.setAttribute(name, tpl.replace(/\{\{\s*([\w.$]+)\s*\}\}/g, function (_, p) { var v = self.get(p); return v == null ? '' : String(v); }));
+        }
+      });
+    });
+    void document.body.offsetHeight; /* lets re-shown animations restart */
+  }
+};
+class DCLogic {
+  constructor(props) { this.props = props || {}; this.state = {}; }
+  setState(patch, cb) {
+    var next = typeof patch === 'function' ? patch(this.state, this.props) : patch;
+    this.state = Object.assign({}, this.state, next);
+    DC.render();
+    if (cb) cb();
+  }
+  forceUpdate() { DC.render(); }
+}
+document.addEventListener('click', function (e) {
+  var el = e.target.closest('[data-on]');
+  if (!el || el.disabled) return;
+  var fn = DC.get(el.getAttribute('data-on'));
+  if (typeof fn === 'function') fn(e);
+});
+/* ---- page logic ---- */
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { playing: true, mood: 0, slide: 1, nudge: '', tape: -1 };
+  }
+  renderVals() {
+    const s = this.state;
+    const MOODS = [
+      { label: 'sunny ☀', title: 'golden-hour sing-alongs', covers: [['#FFD92F', '#FF7800', 'sunshine pop'], ['#FF9BCF', '#FFD92F', 'windows-down mix'], ['#FFB066', '#FFFFFF', 'happy little bops']] },
+      { label: 'sleepy ☾', title: 'soft songs for slow mornings', covers: [['#C7A9F7', '#FFF9F0', 'pillow-soft mix'], ['#FFD8E9', '#C7A9F7', 'blanket fort'], ['#B59FA4', '#FFD8E9', 'gentle acoustics']] },
+      { label: 'focused ✎', title: 'deep-focus study sessions', covers: [['#3BE48A', '#FFF9F0', 'lo-fi library'], ['#FFF9F0', '#3BE48A', 'one more chapter'], ['#C7A9F7', '#3BE48A', 'quiet keys']] },
+      { label: 'in my feelings ♡', title: 'a good cry, gently', covers: [['#FF9BCF', '#C7A9F7', 'rainy window mix'], ['#C7A9F7', '#FF9BCF', 'heart on sleeve'], ['#FFD8E9', '#FF7800', 'it\'s okay, really']] }
+    ];
+    const pos = [[34, 36, 22], [64, 40, 26], [48, 30, 18]];
+    const cur = MOODS[s.mood];
+    const TAPES = [
+      { name: 'songs for the bus home', bg: '#FFD92F', tilt: '-1deg', note: 'mood: tired, content, a little nostalgic.' },
+      { name: '2am essay fuel', bg: '#C7A9F7', tilt: '1deg', note: 'mood: focused (mostly). memory: a deadline.' },
+      { name: 'sunday pancakes', bg: '#FF9BCF', tilt: '-.5deg', note: 'mood: slow and cosy. memory: a kitchen that smells nice.' },
+      { name: 'summer, windows down', bg: '#3BE48A', tilt: '1.2deg', note: 'mood: free. memory: a road trip with friends.' }
+    ];
+    const playing = s.playing;
+    return {
+      playing: playing,
+      paused: !playing,
+      playPressed: playing ? 'true' : 'false',
+      playLabel: playing ? 'pause the pretend music' : 'play the pretend music',
+      togglePlay: () => this.setState({ playing: !playing }),
+      vinylClass: playing ? 'vinyl on' : 'vinyl',
+      eqClass: playing ? 'eq on' : 'eq',
+      moods: MOODS.map((m, i) => ({ label: m.label, pressed: i === s.mood ? 'true' : 'false', pick: () => this.setState({ mood: i }) })),
+      moodTitle: cur.title,
+      covers: cur.covers.map((c, i) => ({ bg: c[0], fg: c[1], name: c[2], x: pos[i][0], y: pos[i][1], r: pos[i][2] })),
+      wClass: 'wrapped w-' + s.slide,
+      w1: s.slide === 1, w2: s.slide === 2, w3: s.slide === 3,
+      d1: s.slide >= 1 ? 'on' : '', d2: s.slide >= 2 ? 'on' : '', d3: s.slide >= 3 ? 'on' : '',
+      wCount: 'slide ' + s.slide + ' of 3',
+      wAtStart: s.slide === 1,
+      wAtEnd: s.slide === 3,
+      wPrev: () => this.setState({ slide: Math.max(1, s.slide - 1) }),
+      wNext: () => this.setState({ slide: Math.min(3, s.slide + 1) }),
+      explore: () => this.setState({ nudge: 'explore' }),
+      notNow: () => this.setState({ nudge: 'no' }),
+      nudgeExplore: s.nudge === 'explore',
+      nudgeNo: s.nudge === 'no',
+      tapes: TAPES.map((t, i) => ({ name: t.name, bg: t.bg, tilt: t.tilt, pressed: i === s.tape ? 'true' : 'false', pick: () => this.setState({ tape: i === s.tape ? -1 : i }) })),
+      tapeNote: s.tape >= 0 ? TAPES[s.tape].note : 'tap a playlist to see the feeling it holds ♪'
+    };
+  }
+}
+DC.comp = new Component({});
+DC.render();
+</script>
+</body>
+</html>

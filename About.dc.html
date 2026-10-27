@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>About · a little about this project</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&amp;family=Fredoka:wght@400;500;600;700&amp;family=Patrick+Hand&amp;display=swap">
+<style>
+:root{
+  --pink:#FF9BCF;--blush:#FFD8E9;--cream:#FFF9F0;--paper:#FFFDF7;--butter:#FFD92F;--tang:#FF7800;--lav:#C7A9F7;--ink:#202020;--mauve:#B59FA4;--white:#FFFFFF;--blue-ink:#24408E;
+  --hand:'Patrick Hand','Comic Neue','Segoe Print','Bradley Hand',cursive;
+  --display:'Fredoka','Baloo 2','Trebuchet MS',system-ui,sans-serif;
+  --sans:'DM Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --blob:28px 34px 26px 38px / 34px 26px 38px 28px;
+  --fast:.2s;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--blush);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--ink)}a:hover{color:#6B1E4A}
+:focus-visible{outline:3px dashed var(--blue-ink);outline-offset:4px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+.site-nav{position:sticky;top:0;z-index:30;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:10px 24px;padding:12px clamp(16px,4vw,56px) 0;background:var(--cream);border-bottom:3px solid var(--ink)}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;padding-bottom:10px;min-height:44px}
+.brand-word{font-family:var(--hand);font-size:25px;line-height:1}
+.brand-here{display:block;font-family:var(--sans);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#5A4A4E;margin-top:3px}
+.brand svg{width:42px;height:42px;flex:none;animation:spin 18s linear infinite}
+.tabs{display:flex;flex-wrap:wrap;gap:6px}
+.tab{display:inline-flex;align-items:center;gap:8px;min-height:46px;padding:10px 18px 12px;border:3px solid var(--ink);border-bottom:none;border-radius:16px 22px 0 0;text-decoration:none;font-family:var(--display);font-weight:500;font-size:17px;color:var(--ink);transform:translateY(5px);transition:transform var(--fast) ease}
+.tab:hover{transform:translateY(-1px) rotate(-1.5deg);color:var(--ink)}
+.tab[aria-current="page"]{transform:translateY(0);padding-bottom:17px;font-weight:700}
+.tab-num{font-family:var(--sans);font-size:12px;font-weight:700;letter-spacing:.08em}
+.t-pink{background:var(--pink)}.t-lav{background:var(--lav)}.t-yel{background:var(--butter)}
+@media (max-width:700px){
+  .site-nav{position:relative;padding-bottom:12px;align-items:center}
+  .tab{border-bottom:3px solid var(--ink);border-radius:14px;transform:none;padding:8px 13px;font-size:15px;min-height:44px}
+  .tab[aria-current="page"]{padding-bottom:8px;box-shadow:3px 3px 0 var(--ink)}
+  .tab .long{display:none}
+}
+
+.wrap{width:100%;max-width:1120px;margin:0 auto;padding:0 clamp(16px,4vw,48px)}
+.eyebrow{font-family:var(--sans);font-weight:700;font-size:13px;letter-spacing:.16em;text-transform:uppercase;margin:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:12px 26px;border:3px solid var(--ink);border-radius:999px;background:var(--ink);color:var(--cream);font-family:var(--display);font-weight:600;font-size:19px;text-decoration:none;box-shadow:4px 5px 0 var(--tang);transition:transform var(--fast),box-shadow var(--fast)}
+.btn:hover{transform:translate(-2px,-2px) rotate(-1.5deg);box-shadow:7px 8px 0 var(--tang);color:var(--cream)}
+.btn-lav{background:var(--lav);color:var(--ink);box-shadow:4px 5px 0 var(--ink)}
+.btn-lav:hover{color:var(--ink);box-shadow:7px 8px 0 var(--ink)}
+.float{animation:float 5s ease-in-out infinite}
+.float-2{animation:float 6.5s ease-in-out -2s infinite}
+
+.title{font-family:var(--hand);font-weight:400;font-size:clamp(56px,7vw,112px);line-height:.95;margin:16px 0 0}
+.sheets{position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(400px,100%),1fr));gap:clamp(40px,5vw,28px);margin-top:clamp(48px,6vw,80px);align-items:start}
+.sheet{position:relative;padding:62px clamp(22px,4vw,48px) 44px calc(clamp(30px,5vw,64px) + 18px);background-color:var(--paper);border:2.5px solid var(--ink);border-radius:6px 12px 8px 14px;background-image:linear-gradient(90deg,transparent 0,transparent calc(clamp(30px,5vw,64px) - 2px),rgba(255,120,175,.6) calc(clamp(30px,5vw,64px) - 2px),rgba(255,120,175,.6) clamp(30px,5vw,64px),transparent clamp(30px,5vw,64px)),repeating-linear-gradient(180deg,transparent 0,transparent 39px,rgba(36,64,142,.12) 39px,rgba(36,64,142,.12) 40px);transition:transform .3s ease}
+.sheet-a{transform:rotate(-2deg);box-shadow:9px 10px 0 var(--pink),9px 10px 0 2.5px var(--ink)}
+.sheet-b{transform:rotate(1.8deg);box-shadow:9px 10px 0 var(--lav),9px 10px 0 2.5px var(--ink)}
+@media (min-width:900px){.sheet-b{margin-top:90px;margin-left:-30px}}
+.sheet:hover{transform:rotate(0) translateY(-6px);z-index:2}
+.ptab{position:absolute;top:-22px;left:34px;padding:9px 20px 12px;border:2.5px solid var(--ink);border-bottom:none;border-radius:14px 18px 0 0;font-family:var(--sans);font-weight:700;font-size:13px;letter-spacing:.14em;text-transform:uppercase}
+.sheet h2{font-family:var(--hand);font-weight:400;font-size:clamp(40px,2.4vw + 24px,58px);line-height:1;margin:0 0 18px}
+.sheet p{font-family:var(--hand);color:var(--blue-ink);font-size:clamp(22px,.5vw + 18px,26px);line-height:40px;margin:0}
+.star-sticker{position:absolute;top:-30px;right:-18px;display:grid;place-items:center;width:80px;height:80px;border:none;background:none;cursor:pointer;padding:0}
+.star-sticker svg{width:72px;height:72px;transition:transform .4s cubic-bezier(.3,1.6,.5,1)}
+.star-sticker:hover svg,.star-sticker[aria-pressed="true"] svg{transform:rotate(144deg) scale(1.15)}
+.thanks{display:inline-block;margin-top:16px;font-family:var(--hand);font-size:22px;padding:6px 14px;background:var(--butter);border:2px dashed var(--ink);border-radius:var(--blob);animation:pop .35s cubic-bezier(.3,1.6,.5,1) both}
+.closing{text-align:center;margin:clamp(72px,9vw,120px) auto 0;max-width:760px}
+.closing p.big{font-family:var(--hand);font-size:clamp(32px,2.6vw + 18px,52px);line-height:1.15;margin:0 0 30px}
+.links{display:flex;flex-wrap:wrap;justify-content:center;gap:16px 20px}
+.foot{border-top:3px solid var(--ink);background:var(--cream);padding:28px 0 34px;margin-top:clamp(72px,9vw,120px)}
+.foot-in{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px 24px}
+.foot p{margin:0}
+
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes float{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-14px) rotate(6deg)}}
+@keyframes pop{from{opacity:0;transform:scale(.7) rotate(-4deg)}to{opacity:1;transform:none}}
+@keyframes draw{to{stroke-dashoffset:0}}
+.drawn{stroke-dasharray:600;stroke-dashoffset:600;animation:draw 2.4s ease .4s forwards}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none !important;transition:none !important}
+  .drawn{stroke-dashoffset:0}
+}
+</style>
+</helmet>
+
+<div>
+<header class="site-nav">
+  <a class="brand" href="index.dc.html" aria-label="little notes on big feelings, back to notes">
+    <svg viewBox="0 0 48 48" aria-hidden="true"><g stroke="#202020" stroke-width="2.2"><circle cx="24" cy="11" r="8" fill="#FF9BCF"></circle><circle cx="36.4" cy="20" r="8" fill="#FFD92F"></circle><circle cx="31.6" cy="34.6" r="8" fill="#C7A9F7"></circle><circle cx="16.4" cy="34.6" r="8" fill="#FF9BCF"></circle><circle cx="11.6" cy="20" r="8" fill="#FFD92F"></circle><circle cx="24" cy="24" r="6.5" fill="#FF7800"></circle></g></svg>
+    <span><span class="brand-word">big feelings</span><span class="brand-here">you are on page 3 of 3</span></span>
+  </a>
+  <nav aria-label="Site pages">
+    <div class="tabs">
+      <a class="tab t-pink" href="index.dc.html"><span class="tab-num">01</span> My Notes</a>
+      <a class="tab t-lav" href="Spotify.dc.html"><span class="tab-num">02</span> Spotify<span class="long">&#160;&amp; Feelings</span></a>
+      <a class="tab t-yel" href="About.dc.html" aria-current="page"><span class="tab-num">03</span> About<span class="long">&#160;Me</span></a>
+    </div>
+  </nav>
+</header>
+
+<main style="position: relative; overflow: hidden; padding-top: clamp(48px, 7vw, 96px)">
+  <svg style="position: absolute; top: 40px; right: -50px; width: clamp(160px, 20vw, 280px); pointer-events: none" viewBox="0 0 200 200" aria-hidden="true"><path d="M48 30c40-30 112-22 136 26s4 118-48 132S10 172 8 118 8 60 48 30z" fill="#FFD92F" stroke="#202020" stroke-width="3"></path></svg>
+  <svg class="float" style="position: absolute; top: 46%; left: 2%; width: 48px; pointer-events: none" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" fill="#FF9BCF" stroke="#202020" stroke-width="1.4" stroke-linejoin="round"></path></svg>
+
+  <div class="wrap" style="position: relative">
+    <p class="eyebrow">03 · About this project</p>
+    <h1 class="title">a little about this project</h1>
+    <svg width="260" height="36" viewBox="0 0 260 36" style="max-width: 70%; margin-top: 6px" aria-hidden="true"><path class="drawn" d="M4 22c30-18 46 14 76 0s46-14 76 0 46 14 76 0 24-8 24-8" fill="none" stroke="#FF7800" stroke-width="4" stroke-linecap="round"></path></svg>
+
+    <div class="sheets">
+      <article class="sheet sheet-a" aria-labelledby="play-h">
+        <span class="ptab" style="background: #FF9BCF">play</span>
+        <svg style="position: absolute; bottom: 18px; right: 18px; width: 70px; transform: rotate(-30deg)" viewBox="0 0 70 18" aria-hidden="true"><path d="M2 9l10-6h46l10 6-10 6H12z" fill="#FFD92F" stroke="#202020" stroke-width="2" stroke-linejoin="round"></path><path d="M2 9l10-6v12z" fill="#FFD8E9" stroke="#202020" stroke-width="2" stroke-linejoin="round"></path><path d="M58 3v12" stroke="#202020" stroke-width="2"></path></svg>
+        <h2 id="play-h">the play part ✿</h2>
+        <p>For this week's play assignment, I vibe coded a website as my submission, trying to use principles of emotion design in the process. I personally engage with cutesy content a lot more, and thought that it would be the perfect reflection for this week's play.</p>
+      </article>
+
+      <article class="sheet sheet-b" aria-labelledby="ref-h">
+        <span class="ptab" style="background: #C7A9F7">reflect</span>
+        <button type="button" class="star-sticker" aria-pressed="{{starPressed}}" onClick="{{tapStar}}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.6 6.1 6.6.6-5 4.4 1.5 6.5L12 16.7 6.3 20.1l1.5-6.5-5-4.4 6.6-.6z" fill="#FFD92F" stroke="#202020" stroke-width="1.3" stroke-linejoin="round"></path></svg><span class="sr">tap the star sticker</span></button>
+        <h2 id="ref-h">the reflect part ♡</h2>
+        <p>My notes are the reflection for W9. This was my first time engaging with the concept of emotion design, and my reflections are the notes that I made while going through the content.</p>
+        <div aria-live="polite">
+          <sc-if value="{{starOn}}" hint-placeholder-val="{{ false }}"><span class="thanks">thanks for stopping by ★</span></sc-if>
+        </div>
+      </article>
+    </div>
+
+    <section class="closing" aria-label="closing">
+      <svg width="120" height="44" viewBox="0 0 120 44" aria-hidden="true"><path d="M6 36C30 4 50 4 60 22S96 40 114 8" fill="none" stroke="#202020" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2 8"></path></svg>
+      <p class="big">a little experiment in designing for feelings ♡</p>
+      <nav class="links" aria-label="Back to other pages">
+        <a class="btn" href="index.dc.html"><span aria-hidden="true">←</span> back to my notes</a>
+        <a class="btn btn-lav" href="Spotify.dc.html"><span aria-hidden="true">←</span> spotify gets the feels</a>
+      </nav>
+    </section>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <p style="font-family: var(--hand); font-size: 23px">made with curiosity, a little pink, and lots of feelings ♡</p>
+    <p class="eyebrow" style="font-size: 12px">W9 Play &amp; Reflect · INST631</p>
+  </div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2200}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { star: false };
+  }
+  renderVals() {
+    const on = this.state.star;
+    return {
+      starOn: on,
+      starPressed: on ? 'true' : 'false',
+      tapStar: () => this.setState({ star: !on })
+    };
+  }
+}
+</script>
+</body>
+</html>
